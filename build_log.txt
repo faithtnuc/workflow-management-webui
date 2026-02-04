@@ -1,0 +1,29 @@
+
+> workflow-web@0.0.0 build
+> vite build
+
+[36mvite v5.4.21 [32mbuilding for production...[36m[39m
+transforming...
+[32m✓[39m 1470 modules transformed.
+[31mx[39m Build failed in 4.87s
+[31merror during build:
+[31msrc/App.jsx (3:2): "LayerThree" is not exported by "node_modules/lucide-react/dist/esm/lucide-react.js", imported by "src/App.jsx".[31m
+file: [36mD:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/src/App.jsx:3:2[31m
+[33m
+1: import React, { useState } from 'react';
+2: import {
+3:   LayerThree,
+     ^
+4:   Search,
+5:   Bell,
+[31m
+    at getRollupError (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/parseAst.js:402:41)
+    at error (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/parseAst.js:398:42)
+    at Module.error (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:17040:16)
+    at Module.traceVariable (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:17452:29)
+    at ModuleScope.findVariable (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:15070:39)
+    at ReturnValueScope.findVariable (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at FunctionBodyScope.findVariable (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:5673:38)
+    at Identifier.bind (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:5447:40)
+    at CallExpression.bind (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:2825:28)
+    at CallExpression.bind (file:///D:/VSCodeWorkspace/PARFLUX/workflow/workflow-web/node_modules/rollup/dist/es/shared/node-entry.js:12179:15)[39m

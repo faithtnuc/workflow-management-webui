@@ -14,7 +14,8 @@ import {
     CheckCircle2,
     Clock3,
     AlertCircle,
-    MessageSquare
+    MessageSquare,
+    MessageCircle
 } from 'lucide-react';
 
 /* -------------------------------------------------------------------------- */
@@ -43,20 +44,81 @@ const THEME = {
     }
 };
 
+const TRANSLATIONS = {
+    TR: {
+        dashboard: 'İşler',
+        jobs: 'İş Ekle',
+        timesheets: 'Kullanıcılar',
+        reporting: 'Müşteriler',
+        users: 'Raporlama',
+        settings: 'Ayarlar',
+        workspaces: 'Çalışma Alanları',
+        searchPlaceholder: 'İş, müşteri veya kullanıcı ara...',
+        overviewTitle: 'Panel Özeti',
+        activeJobs: 'Aktif İşler',
+        viewAll: 'Tümünü Gör',
+        newJob: 'Yeni İş',
+        filter: 'Filtrele',
+        welcomeBack: 'Tekrar hoşgeldiniz, işte bugün olanlar.',
+        viewingFor: 'Görüntülenen Müşteri:',
+        // Table Columns
+        colId: 'Job No',
+        colClient: 'Müşteri',
+        colJob: 'İş Tanımı',
+        colAssignee: 'Kişi',
+        colDeadline: 'Termin',
+        colInternalDeadline: 'Ajans Termin',
+        colStatus: 'Durum',
+        colChat: 'Yazışma',
+        colInternalChat: 'İç Yazışma',
+        noJobs: 'Bu müşteri için aktif iş bulunamadı.'
+    },
+    EN: {
+        dashboard: 'Dashboard',
+        jobs: 'Add Job',
+        timesheets: 'Users',
+        reporting: 'Clients',
+        users: 'Reporting',
+        settings: 'Settings',
+        workspaces: 'Workspaces',
+        searchPlaceholder: 'Search jobs, clients, or users...',
+        overviewTitle: 'Dashboard Overview',
+        activeJobs: 'Active Jobs',
+        viewAll: 'View All Jobs',
+        newJob: 'New Job',
+        filter: 'Filter',
+        welcomeBack: 'Welcome back, here is what is happening today.',
+        viewingFor: 'Viewing jobs for',
+        // Table Columns
+        colId: '#ID',
+        colClient: 'Client',
+        colJob: 'Job Title',
+        colAssignee: 'Assignee',
+        colDeadline: 'Deadline',
+        colInternalDeadline: 'Int. Deadline',
+        colStatus: 'Status',
+        colChat: 'Chat',
+        colInternalChat: 'Int. Chat',
+        noJobs: 'No active jobs found for this client.'
+    }
+};
+
+const CLIENTS = [
+    { id: 'c1', name: 'Acme Corp', logo: 'AC', color: 'bg-blue-600' },
+    { id: 'c2', name: 'Globex', logo: 'GL', color: 'bg-emerald-600' },
+    { id: 'c3', name: 'Soylent', logo: 'SO', color: 'bg-purple-600' },
+    { id: 'c4', name: 'Umbrella', logo: 'UM', color: 'bg-red-600' },
+    { id: 'c5', name: 'Stark', logo: 'ST', color: 'bg-orange-600' },
+];
+
 const MOCK_DATA = {
     user: {
         name: 'Alex Jensen',
         role: 'Senior Producer',
         avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-        notifications: 3
+        notifications: 3,
+        messages: 3 // New unread message count
     },
-    clients: [
-        { id: 'c1', name: 'Acme Corp', logo: 'AC', color: 'bg-blue-600' },
-        { id: 'c2', name: 'Globex', logo: 'GL', color: 'bg-emerald-600' },
-        { id: 'c3', name: 'Soylent', logo: 'SO', color: 'bg-purple-600' },
-        { id: 'c4', name: 'Umbrella', logo: 'UM', color: 'bg-red-600' },
-        { id: 'c5', name: 'Stark', logo: 'ST', color: 'bg-orange-600' },
-    ],
     stats: {
         activeJobs: 12,
         pendingReviews: 4,
@@ -66,57 +128,69 @@ const MOCK_DATA = {
     jobs: [
         {
             id: '10022',
-            client: { name: 'Acme Corp', logo: 'AC', color: 'bg-blue-600' },
+            clientId: 'c1',
             title: 'Q3 Marketing Assets',
             requester: 'Sarah Connor',
             deadline: '2023-11-15',
+            internalDeadline: '2023-11-13',
             status: 'In Progress',
-            messages: 2
+            messages: 2,
+            internalMessages: 5
         },
         {
             id: '10023',
-            client: { name: 'Globex', logo: 'GL', color: 'bg-emerald-600' },
+            clientId: 'c2',
             title: 'Homepage Redesign V2',
             requester: 'Hank Scorpio',
             deadline: '2023-11-12',
+            internalDeadline: '2023-11-10',
             status: 'Review',
-            messages: 0
+            messages: 0,
+            internalMessages: 1
         },
         {
             id: '10024',
-            client: { name: 'Soylent', logo: 'SO', color: 'bg-purple-600' },
+            clientId: 'c3',
             title: 'Nutritional PDF',
             requester: 'Richard T.',
             deadline: '2023-11-20',
+            internalDeadline: '2023-11-18',
             status: 'Waiting',
-            messages: 5
+            messages: 5,
+            internalMessages: 0
         },
         {
             id: '10025',
-            client: { name: 'Acme Corp', logo: 'AC', color: 'bg-blue-600' },
+            clientId: 'c1',
             title: 'Social Media Campaign',
             requester: 'John Doe',
             deadline: '2023-11-14',
+            internalDeadline: '2023-11-12',
             status: 'Completed',
-            messages: 0
+            messages: 0,
+            internalMessages: 0
         },
         {
             id: '10026',
-            client: { name: 'Umbrella', logo: 'UM', color: 'bg-red-600' },
+            clientId: 'c4',
             title: 'Safety Protocols Video',
             requester: 'Albert W.',
             deadline: '2023-11-10',
+            internalDeadline: '2023-11-08',
             status: 'Urgent',
-            messages: 1
+            messages: 1,
+            internalMessages: 3
         },
         {
             id: '10027',
-            client: { name: 'Stark', logo: 'ST', color: 'bg-orange-600' },
+            clientId: 'c5',
             title: 'Suit Interface Mockups',
             requester: 'Pepper Potts',
             deadline: '2023-11-25',
+            internalDeadline: '2023-11-22',
             status: 'In Progress',
-            messages: 0
+            messages: 0,
+            internalMessages: 2
         },
     ]
 };
@@ -161,7 +235,9 @@ const StatusBadge = ({ status }) => {
 };
 
 // Sidebar Component
-const Sidebar = ({ activeClient, setActiveClient }) => {
+const Sidebar = ({ activeClient, setActiveClient, lang }) => {
+    const t = TRANSLATIONS[lang];
+
     return (
         <div className="h-screen bg-white border-r border-slate-200 flex flex-shrink-0 z-20">
             {/* Left Rail - Clients */}
@@ -171,7 +247,7 @@ const Sidebar = ({ activeClient, setActiveClient }) => {
                 </div>
                 <div className="w-8 h-px bg-slate-200 my-2" />
 
-                {MOCK_DATA.clients.map((client) => (
+                {CLIENTS.map((client) => (
                     <div
                         key={client.id}
                         onClick={() => setActiveClient(client.id === activeClient ? null : client.id)}
@@ -183,7 +259,7 @@ const Sidebar = ({ activeClient, setActiveClient }) => {
                     >
                         {client.logo}
                         {activeClient === client.id && (
-                            <div className="absolute -right-11 bg-slate-900 text-white text-xs py-1 px-2 rounded shadow-lg z-50 animate-in fade-in slide-in-from-left-2">
+                            <div className="absolute -right-11 bg-slate-900 text-white text-xs py-1 px-2 rounded shadow-lg z-50 animate-in fade-in slide-in-from-left-2 whitespace-nowrap">
                                 {client.name}
                             </div>
                         )}
@@ -205,14 +281,14 @@ const Sidebar = ({ activeClient, setActiveClient }) => {
                 </div>
 
                 <nav className="flex-1 space-y-1">
-                    <NavItem icon={<LayoutDashboard />} label="Dashboard" active />
-                    <NavItem icon={<Briefcase />} label="Jobs" badge="12" />
-                    <NavItem icon={<Clock />} label="Timesheets" />
-                    <NavItem icon={<FileText />} label="Reporting" />
-                    <NavItem icon={<Users />} label="Users" />
+                    <NavItem icon={<LayoutDashboard />} label={t.dashboard} active />
+                    <NavItem icon={<Briefcase />} label={t.jobs} badge="12" />
+                    <NavItem icon={<Users />} label={t.timesheets} />
+                    <NavItem icon={<Users />} label={t.reporting} />
+                    <NavItem icon={<FileText />} label={t.users} />
 
                     <div className="pt-6 mt-6 border-t border-slate-100">
-                        <h3 className="px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Workspaces</h3>
+                        <h3 className="px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{t.workspaces}</h3>
                         {['Design Team', 'Dev Squad', 'Marketing'].map((item, i) => (
                             <div key={i} className="flex items-center px-2 py-2 text-sm font-medium text-slate-600 rounded-md hover:bg-slate-50 hover:text-slate-900 cursor-pointer group">
                                 <span className={`w-2 h-2 rounded-full mr-3 ${['bg-purple-400', 'bg-blue-400', 'bg-pink-400'][i]}`}></span>
@@ -223,7 +299,7 @@ const Sidebar = ({ activeClient, setActiveClient }) => {
                 </nav>
 
                 <div className="mt-auto px-2">
-                    <NavItem icon={<Settings />} label="Settings" />
+                    <NavItem icon={<Settings />} label={t.settings} />
                 </div>
             </div>
         </div>
@@ -277,16 +353,18 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon }) => (
 
 const App = () => {
     const [activeClient, setActiveClient] = useState(null);
+    const [lang, setLang] = useState('TR');
+    const t = TRANSLATIONS[lang];
 
     const filteredJobs = activeClient
-        ? MOCK_DATA.jobs.filter(job => job.client.id === activeClient)
+        ? MOCK_DATA.jobs.filter(job => job.clientId === activeClient)
         : MOCK_DATA.jobs;
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
 
             {/* Sidebar Navigation */}
-            <Sidebar activeClient={activeClient} setActiveClient={setActiveClient} />
+            <Sidebar activeClient={activeClient} setActiveClient={setActiveClient} lang={lang} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col h-screen overflow-hidden">
@@ -294,8 +372,23 @@ const App = () => {
                 {/* Header */}
                 <header className="h-16 bg-white border-b border-slate-200 grid grid-cols-3 items-center px-8 flex-shrink-0 z-10">
 
-                    {/* Left - Empty for spacing/centering */}
-                    <div></div>
+                    {/* Left - Language Toggle */}
+                    <div className="flex items-center">
+                        <div className="flex items-center bg-slate-100 p-1 rounded-lg">
+                            <button
+                                onClick={() => setLang('TR')}
+                                className={`px-2 py-1 text-xs font-bold rounded-md transition-all ${lang === 'TR' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-indigo-600'}`}
+                            >
+                                TR
+                            </button>
+                            <button
+                                onClick={() => setLang('EN')}
+                                className={`px-2 py-1 text-xs font-bold rounded-md transition-all ${lang === 'EN' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-500 hover:text-indigo-600'}`}
+                            >
+                                EN
+                            </button>
+                        </div>
+                    </div>
 
                     {/* Global Search - Centered & Widened */}
                     <div className="relative w-full max-w-2xl justify-self-center group">
@@ -305,15 +398,26 @@ const App = () => {
                         <input
                             type="text"
                             className="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-indigo-100 focus:border-indigo-500 sm:text-sm transition-all shadow-sm"
-                            placeholder="Search jobs, clients, or users..."
+                            placeholder={t.searchPlaceholder}
                         />
                     </div>
 
                     {/* Right Header Actions */}
                     <div className="flex items-center gap-6 justify-self-end">
+                        {/* Messages */}
+                        <button className="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors rounded-full hover:bg-slate-50">
+                            <MessageSquare className="w-5 h-5" />
+                            {MOCK_DATA.user.messages > 0 && (
+                                <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                            )}
+                        </button>
+
+                        {/* Notifications */}
                         <button className="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors rounded-full hover:bg-slate-50">
                             <Bell className="w-5 h-5" />
-                            <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                            {MOCK_DATA.user.notifications > 0 && (
+                                <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                            )}
                         </button>
 
                         <div className="h-6 w-px bg-slate-200"></div>
@@ -339,21 +443,21 @@ const App = () => {
                         {/* Header Section */}
                         <div className="flex items-center justify-between">
                             <div>
-                                <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard Overview</h1>
+                                <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t.overviewTitle}</h1>
                                 <p className="text-slate-500 mt-1">
                                     {activeClient
-                                        ? `Viewing jobs for ${MOCK_DATA.clients.find(c => c.id === activeClient)?.name}`
-                                        : 'Welcome back, here is what is happening today.'}
+                                        ? `${t.viewingFor} ${CLIENTS.find(c => c.id === activeClient)?.name}`
+                                        : t.welcomeBack}
                                 </p>
                             </div>
                             <div className="flex gap-3">
                                 <button className="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-slate-600 bg-white hover:bg-slate-50 text-sm font-medium shadow-sm transition-all">
                                     <Filter className="w-4 h-4 mr-2 text-slate-400" />
-                                    Filter
+                                    {t.filter}
                                 </button>
                                 <button className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 shadow-md shadow-indigo-200 text-sm font-medium transition-all transform hover:translate-y-px">
                                     <Plus className="w-4 h-4 mr-2" />
-                                    New Job
+                                    {t.newJob}
                                 </button>
                             </div>
                         </div>
@@ -389,72 +493,100 @@ const App = () => {
                         {/* Main Table Section */}
                         <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
                             <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
-                                <h3 className="font-bold text-lg text-slate-900">Active Jobs</h3>
-                                <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline decoration-2 underline-offset-2">View All Jobs &rarr;</a>
+                                <h3 className="font-bold text-lg text-slate-900">{t.activeJobs}</h3>
+                                <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline decoration-2 underline-offset-2">{t.viewAll} &rarr;</a>
                             </div>
 
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse">
                                     <thead>
                                         <tr className="bg-slate-50/50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                            <th className="px-6 py-4">Job ID</th>
-                                            <th className="px-6 py-4">Client</th>
-                                            <th className="px-6 py-4">Job Title</th>
-                                            <th className="px-6 py-4">Requester</th>
-                                            <th className="px-6 py-4">Deadline</th>
-                                            <th className="px-6 py-4">Status</th>
-                                            <th className="px-6 py-4 text-center">Messages</th>
-                                            <th className="px-6 py-4 text-right">Actions</th>
+                                            {/* Column 1: ID */}
+                                            <th className="px-6 py-4">{t.colId}</th>
+                                            {/* Column 2: Client */}
+                                            <th className="px-6 py-4">{t.colClient}</th>
+                                            {/* Column 3: Job Title */}
+                                            <th className="px-6 py-4">{t.colJob}</th>
+                                            {/* Column 4: Assignee */}
+                                            <th className="px-6 py-4">{t.colAssignee}</th>
+                                            {/* Column 5: Deadline */}
+                                            <th className="px-6 py-4">{t.colDeadline}</th>
+                                            {/* Column 6: Internal Deadline (New) */}
+                                            <th className="px-6 py-4">{t.colInternalDeadline}</th>
+                                            {/* Column 7: Status */}
+                                            <th className="px-6 py-4">{t.colStatus}</th>
+                                            {/* Column 8: Client Chat */}
+                                            <th className="px-6 py-4 text-center">{t.colChat}</th>
+                                            {/* Column 9: Internal Chat (New) */}
+                                            <th className="px-6 py-4 text-center">{t.colInternalChat}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
-                                        {filteredJobs.map((job) => (
-                                            <tr key={job.id} className="hover:bg-slate-50/80 transition-colors group">
-                                                <td className="px-6 py-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600 transition-colors">#{job.id}</td>
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center">
-                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white mr-3 ${job.client.color} ring-2 ring-white shadow-sm`}>
-                                                            {job.client.logo}
+                                        {filteredJobs.map((job) => {
+                                            const client = CLIENTS.find(c => c.id === job.clientId);
+                                            return (
+                                                <tr key={job.id} className="hover:bg-slate-50/80 transition-colors group">
+                                                    {/* ID */}
+                                                    <td className="px-6 py-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600 transition-colors">#{job.id}</td>
+
+                                                    {/* Client */}
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center">
+                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white mr-3 ${client?.color || 'bg-slate-400'} ring-2 ring-white shadow-sm`}>
+                                                                {client?.logo || '??'}
+                                                            </div>
+                                                            <span className="text-sm font-medium text-slate-700">{client?.name || 'Unknown'}</span>
                                                         </div>
-                                                        <span className="text-sm font-medium text-slate-700">{job.client.name}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <p className="text-sm font-semibold text-slate-900">{job.title}</p>
-                                                </td>
-                                                <td className="px-6 py-4 text-sm text-slate-500">{job.requester}</td>
-                                                <td className="px-6 py-4">
-                                                    <p className={`text-sm font-medium ${
-                                                        // Simple logic to highlight close deadlines (simulated)
-                                                        job.deadline === '2023-11-10' ? 'text-red-600' : 'text-slate-600'
-                                                        }`}>
-                                                        {new Date(job.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                                                    </p>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <StatusBadge status={job.status} />
-                                                </td>
-                                                <td className="px-6 py-4 text-center">
-                                                    {job.messages > 0 ? (
-                                                        <div className="inline-flex items-center justify-center px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">
-                                                            <MessageSquare className="w-3 h-3 mr-1" />
-                                                            {job.messages}
+                                                    </td>
+
+                                                    {/* Job Title */}
+                                                    <td className="px-6 py-4">
+                                                        <p className="text-sm font-semibold text-slate-900">{job.title}</p>
+                                                    </td>
+
+                                                    {/* Assignee / Requester */}
+                                                    <td className="px-6 py-4 text-sm text-slate-500">{job.requester}</td>
+
+                                                    {/* Deadline */}
+                                                    <td className="px-6 py-4">
+                                                        <p className={`text-sm font-medium ${job.deadline === '2023-11-10' ? 'text-red-600' : 'text-slate-600'
+                                                            }`}>
+                                                            {new Date(job.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                        </p>
+                                                    </td>
+
+                                                    {/* Internal Deadline */}
+                                                    <td className="px-6 py-4">
+                                                        <p className="text-sm font-medium text-slate-500">
+                                                            {new Date(job.internalDeadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                        </p>
+                                                    </td>
+
+                                                    {/* Status */}
+                                                    <td className="px-6 py-4">
+                                                        <StatusBadge status={job.status} />
+                                                    </td>
+
+                                                    {/* Client Chat (Blue) */}
+                                                    <td className="px-6 py-4 text-center">
+                                                        <div className="inline-flex items-center justify-center px-2 py-1 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors cursor-pointer">
+                                                            <MessageMessageSquareWithBadge count={job.messages} color="text-blue-600" />
                                                         </div>
-                                                    ) : (
-                                                        <MessageSquare className="w-4 h-4 text-slate-300 mx-auto" />
-                                                    )}
-                                                </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <button className="text-slate-400 hover:text-slate-600 p-1 rounded-md hover:bg-slate-100 transition-colors">
-                                                        <MoreHorizontal className="w-5 h-5" />
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                    </td>
+
+                                                    {/* Internal Chat (Red/Gray) */}
+                                                    <td className="px-6 py-4 text-center">
+                                                        <div className={`inline-flex items-center justify-center px-2 py-1 rounded-full transition-colors cursor-pointer ${job.internalMessages > 0 ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-slate-50 text-slate-400 hover:bg-slate-100'}`}>
+                                                            <MessageMessageSquareWithBadge count={job.internalMessages} />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                         {filteredJobs.length === 0 && (
                                             <tr>
-                                                <td colSpan="8" className="px-6 py-12 text-center text-slate-500">
-                                                    No active jobs found for this client.
+                                                <td colSpan="9" className="px-6 py-12 text-center text-slate-500">
+                                                    {t.noJobs}
                                                 </td>
                                             </tr>
                                         )}
@@ -469,5 +601,19 @@ const App = () => {
         </div>
     );
 };
+
+// Helper for Chat Icons
+const MessageMessageSquareWithBadge = ({ count, color }) => {
+    // If no count, show plain icon
+    if (!count || count === 0) {
+        return <MessageCircle className="w-4 h-4" />;
+    }
+    return (
+        <div className="flex items-center gap-1 font-bold text-xs">
+            <MessageCircle className="w-4 h-4" />
+            <span>{count}</span>
+        </div>
+    );
+}
 
 export default App;

@@ -94,6 +94,13 @@ const TRANSLATIONS = {
         colStatus: 'Durum',
         colChat: 'Yazışma',
         colInternalChat: 'İç Yazışma',
+        // Job Titles
+        jobQ3Marketing: 'Q3 Pazarlama Varlıkları',
+        jobHomepageRedesign: 'Anasayfa Yenileme V2',
+        jobNutritionalPDF: 'Beslenme Önizleme PDF',
+        jobSocialMedia: 'Sosyal Medya Kampanyası',
+        jobSafetyVideo: 'Güvenlik Protokolü Videosu',
+        jobSuitInterface: 'Suit Arayüz Mockup',
         noJobs: 'Bu müşteri için aktif iş bulunamadı.'
     },
     EN: {
@@ -137,6 +144,13 @@ const TRANSLATIONS = {
         colStatus: 'Status',
         colChat: 'Chat',
         colInternalChat: 'Int. Chat',
+        // Job Titles
+        jobQ3Marketing: 'Q3 Marketing Assets',
+        jobHomepageRedesign: 'Homepage Redesign V2',
+        jobNutritionalPDF: 'Nutritional PDF',
+        jobSocialMedia: 'Social Media Campaign',
+        jobSafetyVideo: 'Safety Protocols Video',
+        jobSuitInterface: 'Suit Interface Mockups',
         noJobs: 'No active jobs found for this client.'
     }
 };
@@ -166,7 +180,7 @@ const MOCK_DB = {
         {
             id: '10022',
             clientId: 'c1',
-            title: 'Q3 Marketing Assets',
+            titleKey: 'jobQ3Marketing',
             requester: 'Sarah Connor',
             deadline: '2023-11-15',
             internalDeadline: '2023-11-13',
@@ -177,7 +191,7 @@ const MOCK_DB = {
         {
             id: '10023',
             clientId: 'c2',
-            title: 'Homepage Redesign V2',
+            titleKey: 'jobHomepageRedesign',
             requester: 'Hank Scorpio',
             deadline: '2023-11-12',
             internalDeadline: '2023-11-10',
@@ -188,7 +202,7 @@ const MOCK_DB = {
         {
             id: '10024',
             clientId: 'c3',
-            title: 'Nutritional PDF',
+            titleKey: 'jobNutritionalPDF',
             requester: 'Richard T.',
             deadline: '2023-11-20',
             internalDeadline: '2023-11-18',
@@ -199,7 +213,7 @@ const MOCK_DB = {
         {
             id: '10025',
             clientId: 'c1',
-            title: 'Social Media Campaign',
+            titleKey: 'jobSocialMedia',
             requester: 'John Doe',
             deadline: '2023-11-14',
             internalDeadline: '2023-11-12',
@@ -210,7 +224,7 @@ const MOCK_DB = {
         {
             id: '10026',
             clientId: 'c4',
-            title: 'Safety Protocols Video',
+            titleKey: 'jobSafetyVideo',
             requester: 'Albert W.',
             deadline: '2023-11-10',
             internalDeadline: '2023-11-08',
@@ -221,7 +235,7 @@ const MOCK_DB = {
         {
             id: '10027',
             clientId: 'c5',
-            title: 'Suit Interface Mockups',
+            titleKey: 'jobSuitInterface',
             requester: 'Pepper Potts',
             deadline: '2023-11-25',
             internalDeadline: '2023-11-22',
@@ -288,8 +302,8 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
                         key={client.id}
                         onClick={() => setActiveClient(client.id === activeClient ? null : client.id)}
                         className={`
-              w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 relative
-              ${activeClient === client.id ? 'ring-2 ring-offset-2 ring-offset-slate-900 ring-indigo-500 scale-110' : 'hover:scale-105 opacity-70 hover:opacity-100'}
+              w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 relative border-2 border-indigo-500
+              ${activeClient === client.id ? 'ring-2 ring-offset-2 ring-offset-slate-900 ring-indigo-500 scale-110' : 'hover:scale-105 opacity-90 hover:opacity-100'}
             `}
                     >
                         <img
@@ -607,7 +621,7 @@ const App = () => {
 
                                                     {/* Job Title */}
                                                     <td className="px-6 py-4">
-                                                        <p className="text-sm font-semibold text-slate-900">{job.title}</p>
+                                                        <p className="text-sm font-semibold text-slate-900">{t[job.titleKey]}</p>
                                                     </td>
 
                                                     {/* Assignee / Requester */}

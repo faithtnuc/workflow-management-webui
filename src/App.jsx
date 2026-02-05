@@ -18,6 +18,14 @@ import {
     MessageCircle
 } from 'lucide-react';
 
+// Import Logos
+import logoSienna from './assets/logos/logo_sienna.svg';
+import logoAbramind from './assets/logos/logo_abramind.svg';
+import logoMaison from './assets/logos/logo_maison.svg';
+import logoPhyllant from './assets/logos/logo_phyllant.svg';
+import logoPithema from './assets/logos/logo_pithema.svg';
+import logoProwa from './assets/logos/logo_prowa.svg';
+
 /* -------------------------------------------------------------------------- */
 /*                                CONSTANTS                                   */
 /* -------------------------------------------------------------------------- */
@@ -103,21 +111,12 @@ const TRANSLATIONS = {
     }
 };
 
-const CLIENTS = [
-    { id: 'c1', name: 'Acme Corp', logo: 'AC', color: 'bg-blue-600' },
-    { id: 'c2', name: 'Globex', logo: 'GL', color: 'bg-emerald-600' },
-    { id: 'c3', name: 'Soylent', logo: 'SO', color: 'bg-purple-600' },
-    { id: 'c4', name: 'Umbrella', logo: 'UM', color: 'bg-red-600' },
-    { id: 'c5', name: 'Stark', logo: 'ST', color: 'bg-orange-600' },
-];
-
-const MOCK_DATA = {
+const MOCK_DB = {
     user: {
         name: 'Alex Jensen',
         role: 'Senior Producer',
         avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-        notifications: 3,
-        messages: 3 // New unread message count
+        notifications: 3
     },
     stats: {
         activeJobs: 12,
@@ -125,6 +124,14 @@ const MOCK_DATA = {
         completedMonth: 28,
         totalHours: 142.5
     },
+    clients: [
+        { id: 'c1', name: 'Sienna', logo: logoSienna, activeJobs: 3, unreadMessages: 2, totalMessages: 15 },
+        { id: 'c2', name: 'Abramind', logo: logoAbramind, activeJobs: 7, unreadMessages: 4, totalMessages: 22 },
+        { id: 'c3', name: 'Maison', logo: logoMaison, activeJobs: 1, unreadMessages: 0, totalMessages: 8 },
+        { id: 'c4', name: 'Phyllant', logo: logoPhyllant, activeJobs: 4, unreadMessages: 12, totalMessages: 45 },
+        { id: 'c5', name: 'Pithema', logo: logoPithema, activeJobs: 2, unreadMessages: 1, totalMessages: 6 },
+        { id: 'c6', name: 'Prowa', logo: logoProwa, activeJobs: 5, unreadMessages: 3, totalMessages: 19 },
+    ],
     jobs: [
         {
             id: '10022',
@@ -239,35 +246,48 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
     const t = TRANSLATIONS[lang];
 
     return (
-        <div className="h-screen bg-white border-r border-slate-200 flex flex-shrink-0 z-20">
+        <div className="h-screen bg-slate-900 border-r border-slate-800 flex flex-shrink-0 z-20">
             {/* Left Rail - Clients */}
-            <div className="w-16 flex flex-col items-center py-6 border-r border-slate-100 bg-slate-50 gap-4">
-                <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-bold cursor-pointer hover:bg-slate-800 transition-colors">
+            <div className="w-16 flex flex-col items-center py-6 border-r border-slate-800 bg-slate-900 gap-4">
+                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold cursor-pointer hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-900/20">
                     FB
                 </div>
-                <div className="w-8 h-px bg-slate-200 my-2" />
+                <div className="w-8 h-px bg-slate-800 my-2" />
 
-                {CLIENTS.map((client) => (
+                {MOCK_DB.clients.map((client) => (
                     <div
                         key={client.id}
                         onClick={() => setActiveClient(client.id === activeClient ? null : client.id)}
                         className={`
-              w-10 h-10 rounded-full flex items-center justify-center text-xs font-semibold text-white cursor-pointer transition-all duration-200 relative
-              ${client.color} 
-              ${activeClient === client.id ? 'ring-2 ring-offset-2 ring-indigo-500 scale-110' : 'hover:scale-105 opacity-80 hover:opacity-100'}
+              w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 relative
+              ${activeClient === client.id ? 'ring-2 ring-offset-2 ring-offset-slate-900 ring-indigo-500 scale-110' : 'hover:scale-105 opacity-70 hover:opacity-100'}
             `}
                     >
-                        {client.logo}
+                        <img
+                            src={client.logo}
+                            alt={client.name}
+                            className="w-full h-full object-cover rounded-full bg-slate-800 shadow-sm"
+                        />
+
+                        {/* Notification Badge for Active Jobs */}
+                        {client.activeJobs > 0 && (
+                            <span className="absolute -top-1 -right-1 block px-1.5 py-0.5 rounded-full bg-indigo-500 border border-slate-900 text-[10px] font-bold text-white shadow-sm z-10 leading-none">
+                                {client.activeJobs}
+                            </span>
+                        )}
+
                         {activeClient === client.id && (
-                            <div className="absolute -right-11 bg-slate-900 text-white text-xs py-1 px-2 rounded shadow-lg z-50 animate-in fade-in slide-in-from-left-2 whitespace-nowrap">
+                            <div className="absolute left-14 top-1/2 -translate-y-1/2 bg-slate-800 text-white text-xs py-1.5 px-3 rounded-md shadow-xl border border-slate-700 z-50 animate-in fade-in slide-in-from-left-2 whitespace-nowrap font-medium">
                                 {client.name}
+                                {/* Little triangle pointer */}
+                                <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 bg-slate-800 border-l border-t border-slate-700 transform -rotate-45"></div>
                             </div>
                         )}
                     </div>
                 ))}
 
                 <div className="mt-auto">
-                    <div className="w-10 h-10 rounded-full border-2 border-dashed border-slate-300 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-400 cursor-pointer transition-colors">
+                    <div className="w-10 h-10 rounded-full border-2 border-dashed border-slate-700 flex items-center justify-center text-slate-500 hover:text-indigo-400 hover:border-indigo-400 cursor-pointer transition-colors hover:bg-slate-800">
                         <Plus className="w-5 h-5" />
                     </div>
                 </div>
@@ -357,8 +377,11 @@ const App = () => {
     const t = TRANSLATIONS[lang];
 
     const filteredJobs = activeClient
-        ? MOCK_DATA.jobs.filter(job => job.clientId === activeClient)
-        : MOCK_DATA.jobs;
+        ? MOCK_DB.jobs.filter(job => job.clientId === activeClient)
+        : MOCK_DB.jobs;
+
+    // Calculate total unread messages from all clients
+    const totalUnreadMessages = MOCK_DB.clients.reduce((sum, client) => sum + client.unreadMessages, 0);
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
@@ -405,17 +428,21 @@ const App = () => {
                     {/* Right Header Actions */}
                     <div className="flex items-center gap-6 justify-self-end">
                         {/* Messages */}
-                        <button className="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors rounded-full hover:bg-slate-50">
-                            <MessageSquare className="w-5 h-5" />
-                            {MOCK_DATA.user.messages > 0 && (
-                                <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-                            )}
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 transition-colors rounded-full hover:bg-slate-50">
+                            <div className="relative">
+                                <MessageSquare className="w-5 h-5" />
+                                {totalUnreadMessages > 0 && (
+                                    <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white leading-none min-w-[1rem] h-4">
+                                        {totalUnreadMessages}
+                                    </span>
+                                )}
+                            </div>
                         </button>
 
                         {/* Notifications */}
                         <button className="relative p-2 text-slate-400 hover:text-indigo-600 transition-colors rounded-full hover:bg-slate-50">
                             <Bell className="w-5 h-5" />
-                            {MOCK_DATA.user.notifications > 0 && (
+                            {MOCK_DB.user.notifications > 0 && (
                                 <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
                             )}
                         </button>
@@ -424,13 +451,13 @@ const App = () => {
 
                         <div className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-lg transition-colors border border-transparent hover:border-slate-100">
                             <div className="text-right hidden md:block">
-                                <p className="text-sm font-semibold text-slate-700">{MOCK_DATA.user.name}</p>
-                                <p className="text-xs text-slate-500">{MOCK_DATA.user.role}</p>
+                                <p className="text-sm font-semibold text-slate-700">{MOCK_DB.user.name}</p>
+                                <p className="text-xs text-slate-500">{MOCK_DB.user.role}</p>
                             </div>
                             <img
                                 className="h-9 w-9 rounded-full ring-2 ring-white shadow-sm"
-                                src={MOCK_DATA.user.avatar}
-                                alt={MOCK_DATA.user.name}
+                                src={MOCK_DB.user.avatar}
+                                alt={MOCK_DB.user.name}
                             />
                         </div>
                     </div>
@@ -446,7 +473,7 @@ const App = () => {
                                 <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t.overviewTitle}</h1>
                                 <p className="text-slate-500 mt-1">
                                     {activeClient
-                                        ? `${t.viewingFor} ${CLIENTS.find(c => c.id === activeClient)?.name}`
+                                        ? `${t.viewingFor} ${MOCK_DB.clients.find(c => c.id === activeClient)?.name}`
                                         : t.welcomeBack}
                                 </p>
                             </div>
@@ -466,25 +493,25 @@ const App = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <MetricCard
                                 title="Active Jobs"
-                                value={MOCK_DATA.stats.activeJobs}
+                                value={MOCK_DB.stats.activeJobs}
                                 trend="up"
                                 icon={Briefcase}
                             />
                             <MetricCard
                                 title="Pending Reviews"
-                                value={MOCK_DATA.stats.pendingReviews}
+                                value={MOCK_DB.stats.pendingReviews}
                                 subtext="Needs attention"
                                 icon={AlertCircle}
                             />
                             <MetricCard
                                 title="Completed (Nov)"
-                                value={MOCK_DATA.stats.completedMonth}
+                                value={MOCK_DB.stats.completedMonth}
                                 trend="up"
                                 icon={CheckCircle2}
                             />
                             <MetricCard
                                 title="Total Hours"
-                                value={MOCK_DATA.stats.totalHours}
+                                value={MOCK_DB.stats.totalHours}
                                 trend="down"
                                 icon={Clock}
                             />
@@ -523,7 +550,7 @@ const App = () => {
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
                                         {filteredJobs.map((job) => {
-                                            const client = CLIENTS.find(c => c.id === job.clientId);
+                                            const client = MOCK_DB.clients.find(c => c.id === job.clientId);
                                             return (
                                                 <tr key={job.id} className="hover:bg-slate-50/80 transition-colors group">
                                                     {/* ID */}
@@ -532,8 +559,12 @@ const App = () => {
                                                     {/* Client */}
                                                     <td className="px-6 py-4">
                                                         <div className="flex items-center">
-                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white mr-3 ${client?.color || 'bg-slate-400'} ring-2 ring-white shadow-sm`}>
-                                                                {client?.logo || '??'}
+                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white mr-3 ring-2 ring-white shadow-sm overflow-hidden`}>
+                                                                {client?.logo ? (
+                                                                    <img src={client.logo} alt={client.name} className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    <div className="w-full h-full bg-slate-400" />
+                                                                )}
                                                             </div>
                                                             <span className="text-sm font-medium text-slate-700">{client?.name || 'Unknown'}</span>
                                                         </div>

@@ -69,6 +69,21 @@ const TRANSLATIONS = {
         filter: 'Filtrele',
         welcomeBack: 'Tekrar hoşgeldiniz, işte bugün olanlar.',
         viewingFor: 'Görüntülenen Müşteri:',
+        workflowManagement: 'İş Akış Yönetimi',
+        metricActiveJobs: 'Aktif İşler',
+        metricPendingReviews: 'Bekleyen Onaylar',
+        metricCompleted: 'Tamamlanan (Ay)',
+        metricTotalHours: 'Toplam Saat',
+        needsAttention: 'Dikkat gerekiyor',
+        vsLastMonth: 'geçen aya göre',
+        workspacesList: ['Tasarım Ekibi', 'Yazılım Ekibi', 'Pazarlama'],
+        status: {
+            Completed: 'Tamamlandı',
+            Review: 'İnceleniyor',
+            Waiting: 'Beklemede',
+            Urgent: 'Acil',
+            InProgress: 'Devam Ediyor'
+        },
         // Table Columns
         colId: 'Job No',
         colClient: 'Müşteri',
@@ -97,6 +112,21 @@ const TRANSLATIONS = {
         filter: 'Filter',
         welcomeBack: 'Welcome back, here is what is happening today.',
         viewingFor: 'Viewing jobs for',
+        workflowManagement: 'Workflow Management',
+        metricActiveJobs: 'Active Jobs',
+        metricPendingReviews: 'Pending Reviews',
+        metricCompleted: 'Completed (Month)',
+        metricTotalHours: 'Total Hours',
+        needsAttention: 'Needs attention',
+        vsLastMonth: 'vs last month',
+        workspacesList: ['Design Team', 'Dev Squad', 'Marketing'],
+        status: {
+            Completed: 'Completed',
+            Review: 'Review',
+            Waiting: 'Waiting',
+            Urgent: 'Urgent',
+            InProgress: 'In Progress'
+        },
         // Table Columns
         colId: '#ID',
         colClient: 'Client',
@@ -207,7 +237,7 @@ const MOCK_DB = {
 /* -------------------------------------------------------------------------- */
 
 // Status Badge Component
-const StatusBadge = ({ status }) => {
+const StatusBadge = ({ status, label }) => {
     let styles = '';
     let icon = null;
 
@@ -236,7 +266,7 @@ const StatusBadge = ({ status }) => {
     return (
         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${styles}`}>
             {icon}
-            {status}
+            {label || status}
         </span>
     );
 };
@@ -248,18 +278,17 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
     return (
         <div className="h-screen bg-slate-900 border-r border-slate-800 flex flex-shrink-0 z-20">
             {/* Left Rail - Clients */}
-            <div className="w-16 flex flex-col items-center py-6 border-r border-slate-800 bg-slate-900 gap-4">
-                <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold cursor-pointer hover:bg-indigo-500 transition-colors shadow-lg shadow-indigo-900/20">
-                    FB
-                </div>
-                <div className="w-8 h-px bg-slate-800 my-2" />
+            <div className="w-20 flex flex-col items-center py-6 border-r border-slate-800 bg-slate-900 gap-4">
+                {/* Spacer for alignment with Right Rail 'Jobs' button */}
+                {/* Right Rail Header is approx 40px + 32px margin = 72px. Gap is 16px. So 72 - 16 = 56px spacer. */}
+                <div className="w-full h-[56px] flex-shrink-0" />
 
                 {MOCK_DB.clients.map((client) => (
                     <div
                         key={client.id}
                         onClick={() => setActiveClient(client.id === activeClient ? null : client.id)}
                         className={`
-              w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 relative
+              w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 relative
               ${activeClient === client.id ? 'ring-2 ring-offset-2 ring-offset-slate-900 ring-indigo-500 scale-110' : 'hover:scale-105 opacity-70 hover:opacity-100'}
             `}
                     >
@@ -297,7 +326,7 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
             <div className="w-64 flex flex-col py-6 px-4 bg-white">
                 <div className="mb-8 px-2">
                     <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-1">FluxBoard</h2>
-                    <p className="text-xs text-slate-500">Agency Workflow</p>
+                    <p className="text-xs text-slate-500">{t.workflowManagement}</p>
                 </div>
 
                 <nav className="flex-1 space-y-1">
@@ -309,7 +338,7 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
 
                     <div className="pt-6 mt-6 border-t border-slate-100">
                         <h3 className="px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{t.workspaces}</h3>
-                        {['Design Team', 'Dev Squad', 'Marketing'].map((item, i) => (
+                        {t.workspacesList.map((item, i) => (
                             <div key={i} className="flex items-center px-2 py-2 text-sm font-medium text-slate-600 rounded-md hover:bg-slate-50 hover:text-slate-900 cursor-pointer group">
                                 <span className={`w-2 h-2 rounded-full mr-3 ${['bg-purple-400', 'bg-blue-400', 'bg-pink-400'][i]}`}></span>
                                 {item}
@@ -347,7 +376,7 @@ const NavItem = ({ icon, label, active = false, badge }) => (
 
 
 // Metric Card
-const MetricCard = ({ title, value, subtext, trend, icon: Icon }) => (
+const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_10px_-4px_rgba(6,81,237,0.1)] hover:shadow-lg transition-all duration-300 group">
         <div className="flex items-start justify-between mb-4">
             <div>
@@ -359,8 +388,8 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon }) => (
             </div>
         </div>
         <div className="flex items-center text-sm">
-            {trend === 'up' && <span className="text-emerald-600 font-medium flex items-center">↑ 12% <span className="text-slate-400 ml-1 font-normal">vs last month</span></span>}
-            {trend === 'down' && <span className="text-red-500 font-medium flex items-center">↓ 2% <span className="text-slate-400 ml-1 font-normal">vs last month</span></span>}
+            {trend === 'up' && <span className="text-emerald-600 font-medium flex items-center">↑ 12% <span className="text-slate-400 ml-1 font-normal">{trendLabel}</span></span>}
+            {trend === 'down' && <span className="text-red-500 font-medium flex items-center">↓ 2% <span className="text-slate-400 ml-1 font-normal">{trendLabel}</span></span>}
             {!trend && <span className="text-slate-400">{subtext}</span>}
         </div>
     </div>
@@ -492,27 +521,30 @@ const App = () => {
                         {/* Metrics Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <MetricCard
-                                title="Active Jobs"
+                                title={t.metricActiveJobs}
                                 value={MOCK_DB.stats.activeJobs}
                                 trend="up"
+                                trendLabel={t.vsLastMonth}
                                 icon={Briefcase}
                             />
                             <MetricCard
-                                title="Pending Reviews"
+                                title={t.metricPendingReviews}
                                 value={MOCK_DB.stats.pendingReviews}
-                                subtext="Needs attention"
+                                subtext={t.needsAttention}
                                 icon={AlertCircle}
                             />
                             <MetricCard
-                                title="Completed (Nov)"
+                                title={t.metricCompleted}
                                 value={MOCK_DB.stats.completedMonth}
                                 trend="up"
+                                trendLabel={t.vsLastMonth}
                                 icon={CheckCircle2}
                             />
                             <MetricCard
-                                title="Total Hours"
+                                title={t.metricTotalHours}
                                 value={MOCK_DB.stats.totalHours}
                                 trend="down"
+                                trendLabel={t.vsLastMonth}
                                 icon={Clock}
                             />
                         </div>
@@ -551,6 +583,9 @@ const App = () => {
                                     <tbody className="divide-y divide-slate-100">
                                         {filteredJobs.map((job) => {
                                             const client = MOCK_DB.clients.find(c => c.id === job.clientId);
+                                            // Status lookup key logic: "In Progress" -> "InProgress"
+                                            const statusKey = job.status.replace(' ', '');
+                                            const statusLabel = t.status[statusKey] || job.status;
                                             return (
                                                 <tr key={job.id} className="hover:bg-slate-50/80 transition-colors group">
                                                     {/* ID */}
@@ -582,20 +617,20 @@ const App = () => {
                                                     <td className="px-6 py-4">
                                                         <p className={`text-sm font-medium ${job.deadline === '2023-11-10' ? 'text-red-600' : 'text-slate-600'
                                                             }`}>
-                                                            {new Date(job.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                            {new Date(job.deadline).toLocaleDateString(lang === 'TR' ? 'tr-TR' : 'en-US', { month: 'short', day: 'numeric' })}
                                                         </p>
                                                     </td>
 
                                                     {/* Internal Deadline */}
                                                     <td className="px-6 py-4">
                                                         <p className="text-sm font-medium text-slate-500">
-                                                            {new Date(job.internalDeadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                                            {new Date(job.internalDeadline).toLocaleDateString(lang === 'TR' ? 'tr-TR' : 'en-US', { month: 'short', day: 'numeric' })}
                                                         </p>
                                                     </td>
 
                                                     {/* Status */}
                                                     <td className="px-6 py-4">
-                                                        <StatusBadge status={job.status} />
+                                                        <StatusBadge status={job.status} label={statusLabel} />
                                                     </td>
 
                                                     {/* Client Chat (Blue) */}

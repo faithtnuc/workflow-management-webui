@@ -137,7 +137,7 @@ const TRANSLATIONS = {
         filterAll: 'Tüm İşler',
         filterMyJobs: 'Bana Atananlar',
         filterUrgent: 'Acil İşler',
-        filterReview: 'Onay Bekleyen',
+        filterReview: 'Onay Bekleyen İşler',
     },
     EN: {
         dashboard: 'Dashboard',
@@ -219,7 +219,7 @@ const TRANSLATIONS = {
         filterAll: 'All Jobs',
         filterMyJobs: 'My Jobs',
         filterUrgent: 'Urgent',
-        filterReview: 'Pending Review',
+        filterReview: 'Pending Review Jobs',
     }
 };
 
@@ -560,6 +560,11 @@ const App = () => {
     // Calculate total unread messages from all clients
     const totalUnreadMessages = MOCK_DB.clients.reduce((sum, client) => sum + client.unreadMessages, 0);
 
+    // Calculate count of Review jobs
+    const reviewCount = (activeClient
+        ? MOCK_DB.jobs.filter(job => job.clientId === activeClient)
+        : MOCK_DB.jobs).filter(job => job.status === 'Review').length;
+
     return (
         <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
 
@@ -646,26 +651,50 @@ const App = () => {
 
                         {/* Header Section with Quick Filters */}
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1 bg-slate-100/50 p-1 rounded-xl">
+                            <div className="flex items-center gap-2">
                                 {[
                                     { id: 'all', label: t.filterAll },
                                     { id: 'myJobs', label: t.filterMyJobs },
                                     { id: 'urgent', label: t.filterUrgent },
-                                    { id: 'review', label: t.filterReview }
-                                ].map(tab => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveFilter(tab.id)}
-                                        className={`
-                                            px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
-                                            ${activeFilter === tab.id
-                                                ? 'bg-slate-900 text-white shadow-md'
-                                                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}
-                                        `}
-                                    >
-                                        {tab.label}
-                                    </button>
-                                ))}
+                                    { id: 'review', label: t.filterReview, isSpecial: true } // Special flag for Review tab
+                                ].map(tab => {
+                                    // Base styles matching the "Filter" button: White bg, border, slate text
+                                    const baseStyle = "flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 border shadow-sm";
+
+                                    // Inactive state
+                                    let style = `${baseStyle} border-slate-200 bg-white text-slate-600 hover:bg-slate-50 hover:text-slate-900`;
+
+                                    // Special "Review" button styling
+                                    if (tab.isSpecial) {
+                                        if (activeFilter === tab.id) {
+                                            // Active Special: Indigo Filled (Like New Job button)
+                                            style = `${baseStyle} bg-indigo-600 text-white border-transparent shadow-md shadow-indigo-200 hover:bg-indigo-700`;
+                                        } else {
+                                            // Inactive Special: Distinctive Indigo Tint
+                                            style = `${baseStyle} bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100`;
+                                        }
+                                    } else {
+                                        // Standard Active State
+                                        if (activeFilter === tab.id) {
+                                            style = `${baseStyle} border-indigo-600 text-indigo-600 bg-indigo-50/50`;
+                                        }
+                                    }
+
+                                    return (
+                                        <button
+                                            key={tab.id}
+                                            onClick={() => setActiveFilter(tab.id)}
+                                            className={style}
+                                        >
+                                            {tab.label}
+                                            {tab.isSpecial && reviewCount > 0 && (
+                                                <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-bold ${activeFilter === tab.id ? 'bg-white/20 text-white' : 'bg-indigo-200 text-indigo-800'}`}>
+                                                    {reviewCount}
+                                                </span>
+                                            )}
+                                        </button>
+                                    );
+                                })}
                             </div>
                             <div className="flex gap-3">
                                 <button className="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-slate-600 bg-white hover:bg-slate-50 text-sm font-medium shadow-sm transition-all">

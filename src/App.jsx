@@ -134,6 +134,7 @@ const TRANSLATIONS = {
         employeeClient: 'Çalışan Müşteri',
 
         // Quick Filters
+        filterActive: 'Aktif İşler',
         filterAll: 'Tüm İşler',
         filterMyJobs: 'Bana Atananlar',
         filterUrgent: 'Acil İşler',
@@ -216,6 +217,7 @@ const TRANSLATIONS = {
         employeeClient: 'Employee Client',
 
         // Quick Filters (EN)
+        filterActive: 'Active Jobs',
         filterAll: 'All Jobs',
         filterMyJobs: 'My Jobs',
         filterUrgent: 'Urgent',
@@ -252,7 +254,7 @@ const MOCK_DB = {
             requester: 'Sarah Connor',
             deadline: '2023-11-15',
             internalDeadline: '2023-11-13',
-            status: 'In Progress',
+            status: 'Review', // Changed to Review
             messages: 2,
             internalMessages: 5
         },
@@ -274,7 +276,7 @@ const MOCK_DB = {
             requester: 'Richard T.',
             deadline: '2023-11-20',
             internalDeadline: '2023-11-18',
-            status: 'Waiting',
+            status: 'Review', // Changed to Review
             messages: 5,
             internalMessages: 0
         },
@@ -544,13 +546,14 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) =>
 const App = () => {
     const [activeClient, setActiveClient] = useState(null);
     const [lang, setLang] = useState('TR');
-    const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'myJobs', 'urgent', 'review'
+    const [activeFilter, setActiveFilter] = useState('active'); // default 'active'
     const t = TRANSLATIONS[lang];
 
     const filteredJobs = (activeClient
         ? MOCK_DB.jobs.filter(job => job.clientId === activeClient)
         : MOCK_DB.jobs).filter(job => {
             if (activeFilter === 'all') return true;
+            if (activeFilter === 'active') return job.status !== 'Completed';
             if (activeFilter === 'myJobs') return job.requester === 'Sarah Connor';
             if (activeFilter === 'urgent') return job.status === 'Urgent';
             if (activeFilter === 'review') return job.status === 'Review';
@@ -653,6 +656,7 @@ const App = () => {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 {[
+                                    { id: 'active', label: t.filterActive },
                                     { id: 'all', label: t.filterAll },
                                     { id: 'myJobs', label: t.filterMyJobs },
                                     { id: 'urgent', label: t.filterUrgent },

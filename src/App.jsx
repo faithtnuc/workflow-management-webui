@@ -138,7 +138,12 @@ const TRANSLATIONS = {
         filterAll: 'Tüm İşler',
         filterMyJobs: 'Bana Atananlar',
         filterUrgent: 'Acil İşler',
+        filterUrgent: 'Acil İşler',
         filterReview: 'Onay Bekleyen İşler',
+
+        // View actions
+        showMetrics: 'Özeti Göster',
+        viewAll: 'Tümünü Gör',
     },
     EN: {
         dashboard: 'Dashboard',
@@ -221,7 +226,12 @@ const TRANSLATIONS = {
         filterAll: 'All Jobs',
         filterMyJobs: 'My Jobs',
         filterUrgent: 'Urgent',
+        filterUrgent: 'Urgent',
         filterReview: 'Pending Review Jobs',
+
+        // View actions
+        showMetrics: 'Show Metrics',
+        viewAll: 'View All Jobs',
     }
 };
 
@@ -314,14 +324,69 @@ const MOCK_DB = {
             internalMessages: 2
         },
         {
-            id: '10028',
+            id: '10029',
+            clientId: 'c1',
+            titleKey: 'jobQ3Marketing',
+            requester: 'Sarah Connor',
+            deadline: '2023-11-30',
+            internalDeadline: '2023-11-28',
+            status: 'Waiting',
+            messages: 1,
+            internalMessages: 4
+        },
+        {
+            id: '10030',
+            clientId: 'c2',
+            titleKey: 'jobHomepageRedesign',
+            requester: 'Hank Scorpio',
+            deadline: '2023-12-01',
+            internalDeadline: '2023-11-30',
+            status: 'In Progress',
+            messages: 2,
+            internalMessages: 0
+        },
+        {
+            id: '10031',
+            clientId: 'c3',
+            titleKey: 'jobNutritionalPDF',
+            requester: 'Richard T.',
+            deadline: '2023-12-05',
+            internalDeadline: '2023-12-03',
+            status: 'Urgent',
+            messages: 0,
+            internalMessages: 2
+        },
+        {
+            id: '10032',
+            clientId: 'c4',
+            titleKey: 'jobSafetyVideo',
+            requester: 'Albert W.',
+            deadline: '2023-12-08',
+            internalDeadline: '2023-12-06',
+            status: 'Review', // 4th Review job
+            messages: 4,
+            internalMessages: 1
+        },
+        {
+            id: '10033',
+            clientId: 'c5',
+            titleKey: 'jobSuitInterface',
+            requester: 'Pepper Potts',
+            deadline: '2023-12-10',
+            internalDeadline: '2023-12-08',
+            status: 'Completed',
+            messages: 0,
+            internalMessages: 0
+        },
+        {
+            id: '10034',
             clientId: 'c6',
             titleKey: 'jobMobileRefresh',
             requester: 'Gary O.',
-            deadline: '2023-11-28',
-            internalDeadline: '2023-11-26',
-            status: 'Review',
-            messages: 3,
+            deadline: '2023-12-12',
+            internalDeadline: '2023-12-10',
+            status: 'In Progress',
+            messages: 1,
             internalMessages: 1
         },
     ]
@@ -547,6 +612,7 @@ const App = () => {
     const [activeClient, setActiveClient] = useState(null);
     const [lang, setLang] = useState('TR');
     const [activeFilter, setActiveFilter] = useState('active'); // default 'active'
+    const [isExpanded, setIsExpanded] = useState(false);
     const t = TRANSLATIONS[lang];
 
     const filteredJobs = (activeClient
@@ -559,6 +625,9 @@ const App = () => {
             if (activeFilter === 'review') return job.status === 'Review';
             return true;
         });
+
+    // Limit rows if not expanded (Preview Mode)
+    const displayJobs = isExpanded ? filteredJobs : filteredJobs.slice(0, 7);
 
     // Calculate total unread messages from all clients
     const totalUnreadMessages = MOCK_DB.clients.reduce((sum, client) => sum + client.unreadMessages, 0);
@@ -649,11 +718,11 @@ const App = () => {
                 </header>
 
                 {/* Dashboard Content - Scrollable */}
-                <main className="flex-1 overflow-y-auto p-8">
-                    <div className="w-full mx-auto space-y-8">
+                <main className="flex-1 overflow-y-auto px-8 pt-8 pb-32">
+                    <div className="w-full mx-auto flex flex-col">
 
                         {/* Header Section with Quick Filters */}
-                        <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-2">
                                 {[
                                     { id: 'active', label: t.filterActive },
@@ -712,8 +781,10 @@ const App = () => {
                             </div>
                         </div>
 
-                        {/* Metrics Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {/* Metrics Grid - Collapsible */}
+                        <div
+                            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-0 opacity-0 mb-0' : 'max-h-[500px] opacity-100 mb-8'}`}
+                        >
                             <MetricCard
                                 title={t.metricActiveJobs}
                                 value={MOCK_DB.stats.activeJobs}
@@ -744,10 +815,18 @@ const App = () => {
                         </div>
 
                         {/* Main Table Section */}
-                        <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+                        <div className={`bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col transition-all duration-500 ${isExpanded ? 'flex-1 h-full' : ''}`}>
                             <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-white">
                                 <h3 className="font-bold text-lg text-slate-900">{t.activeJobs}</h3>
-                                <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline decoration-2 underline-offset-2">{t.viewAll} &rarr;</a>
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setIsExpanded(!isExpanded);
+                                    }}
+                                    className="text-sm font-medium text-indigo-600 hover:text-indigo-700 hover:underline decoration-2 underline-offset-2 transition-colors"
+                                >
+                                    {isExpanded ? t.showMetrics + ' ↓' : t.viewAll + ' →'}
+                                </button>
                             </div>
 
                             <div className="overflow-x-auto">
@@ -775,7 +854,7 @@ const App = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-100">
-                                        {filteredJobs.map((job) => {
+                                        {displayJobs.map((job) => {
                                             const client = MOCK_DB.clients.find(c => c.id === job.clientId);
                                             // Status lookup key logic: "In Progress" -> "InProgress"
                                             const statusKey = job.status.replace(' ', '');
@@ -843,7 +922,7 @@ const App = () => {
                                                 </tr>
                                             );
                                         })}
-                                        {filteredJobs.length === 0 && (
+                                        {displayJobs.length === 0 && (
                                             <tr>
                                                 <td colSpan="9" className="px-6 py-12 text-center text-slate-500">
                                                     {t.noJobs}

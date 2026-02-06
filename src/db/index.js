@@ -36,9 +36,16 @@ export const MOCK_DB = {
             requester: 'Sarah Connor',
             deadline: '2023-11-15',
             internalDeadline: '2023-11-13',
-            status: 'Review', // Changed to Review
+            status: 'Review',
             messages: 2,
-            internalMessages: 5
+            internalMessages: 5,
+            description: "Comprehensive marketing campaign strategy for Q3, including social media ramp-up and influencer partnerships.",
+            requirements: ["Strategy", "Social Media", "Copywriting"],
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Initial draft is ready for review.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Looks good, minor tweaks on the budget section needed.', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' }
+            ]
         },
         {
             id: '10023',
@@ -49,7 +56,14 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-10',
             status: 'Review',
             messages: 0,
-            internalMessages: 1
+            internalMessages: 1,
+            description: "Complete redesign of the corporate homepage to align with the new branding guidelines. Focus on conversion optimization and mobile responsiveness.",
+            requirements: ["UX/UI Design", "Frontend Dev", "SEO", "Accessibility"],
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Wireframes approved. Moving to high-fidelity designs.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
+                { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' }
+            ]
         },
         {
             id: '10024',
@@ -58,9 +72,14 @@ export const MOCK_DB = {
             requester: 'Richard T.',
             deadline: '2023-11-20',
             internalDeadline: '2023-11-18',
-            status: 'Review', // Changed to Review
+            status: 'Review',
             messages: 5,
-            internalMessages: 0
+            internalMessages: 0,
+            description: "Design and layout for the new nutritional guide PDF. Needs to be print-ready and accessible for digital distribution.",
+            requirements: ["Graphic Design", "Print Layout", "Illustration"],
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Richard T.', timestamp: '2023-10-28 08:30', visibility: 'internal' }
+            ]
         },
         {
             id: '10025',
@@ -71,7 +90,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-12',
             status: 'Completed',
             messages: 0,
-            internalMessages: 0
+            internalMessages: 0,
+            description: "November social media content calendar and assets creation.",
+            requirements: ["Social Media", "Graphic Design"],
+            activityLog: []
         },
         {
             id: '10026',
@@ -82,7 +104,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-08',
             status: 'Urgent',
             messages: 1,
-            internalMessages: 3
+            internalMessages: 3,
+            description: "Internal safety training video editing and voiceover synchronization.",
+            requirements: ["Video Editing", "Voiceover", "Motion Graphics"],
+            activityLog: []
         },
         {
             id: '10027',
@@ -93,7 +118,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-22',
             status: 'In Progress',
             messages: 0,
-            internalMessages: 2
+            internalMessages: 2,
+            description: "UI design for the HUD interface of the Mark 85 suit.",
+            requirements: ["UI Design", "Holography", "Interaction Design"],
+            activityLog: []
         },
         {
             id: '10029',
@@ -104,7 +132,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-28',
             status: 'Waiting',
             messages: 1,
-            internalMessages: 4
+            internalMessages: 4,
+            description: "Follow-up marketing materials for Q3 campaign.",
+            requirements: ["Strategy", "Copywriting"],
+            activityLog: []
         },
         {
             id: '10030',
@@ -115,7 +146,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-11-30',
             status: 'In Progress',
             messages: 2,
-            internalMessages: 0
+            internalMessages: 0,
+            description: "Phase 2 of homepage redesign: Implementation.",
+            requirements: ["Frontend Dev", "Testing"],
+            activityLog: []
         },
         {
             id: '10031',
@@ -126,7 +160,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-12-03',
             status: 'Urgent',
             messages: 0,
-            internalMessages: 2
+            internalMessages: 2,
+            description: "Revisions for the nutritional guide based on legal review.",
+            requirements: ["Graphic Design", "Print Layout"],
+            activityLog: []
         },
         {
             id: '10032',
@@ -135,9 +172,12 @@ export const MOCK_DB = {
             requester: 'Albert W.',
             deadline: '2023-12-08',
             internalDeadline: '2023-12-06',
-            status: 'Review', // 4th Review job
+            status: 'Review',
             messages: 4,
-            internalMessages: 1
+            internalMessages: 1,
+            description: "Final cut review of the safety video.",
+            requirements: ["Video Editing"],
+            activityLog: []
         },
         {
             id: '10033',
@@ -148,7 +188,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-12-08',
             status: 'Completed',
             messages: 0,
-            internalMessages: 0
+            internalMessages: 0,
+            description: "Final polish of the HUD elements.",
+            requirements: ["UI Design", "Motion Graphics"],
+            activityLog: []
         },
         {
             id: '10034',
@@ -159,7 +202,10 @@ export const MOCK_DB = {
             internalDeadline: '2023-12-10',
             status: 'In Progress',
             messages: 1,
-            internalMessages: 1
+            internalMessages: 1,
+            description: "Refreshing the mobile app icons and splash screen.",
+            requirements: ["Iconography", "Mobile Design"],
+            activityLog: []
         },
     ]
 };

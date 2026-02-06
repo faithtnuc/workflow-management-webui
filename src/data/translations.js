@@ -87,6 +87,38 @@ export const TRANSLATIONS = {
         // View actions
         showMetrics: 'Özeti Göster',
         viewAll: 'Tümünü Gör',
+
+        // Job Editor (Drawer)
+        drawerDescription: 'Açıklama',
+        drawerRequirements: 'Gereksinimler',
+        drawerTimeline: 'Zaman Çizelgesi',
+        drawerClientDeadline: 'Müşteri Termini',
+        drawerAgencyDeadline: 'Ajans Termini',
+        drawerJobTitle: 'İş Başlığı',
+        drawerPlaceholderDesc: 'İş açıklamasını girin...',
+        drawerBreadcrumb: 'Abramind',
+
+        // Drawer Tabs
+        tabClientChat: 'Müşteri Sohbeti',
+        tabInternalTeam: 'İç Ekip',
+        tabActivityChat: 'Aktivite & Sohbet',
+        tabFiles: 'Dosyalar',
+
+        // Drawer Actions
+        dropFiles: 'Dosyaları buraya sürükleyin',
+        browseFiles: 'veya göz atın',
+        msgPlaceholderClient: 'Müşteriye mesaj yaz...',
+        msgPlaceholderInternal: 'Ekibe özel not yaz...',
+        noActivity: 'Henüz aktivite yok',
+
+        // Requirement Types
+        reqSoftware: 'Yazılım',
+        reqPrint: 'Baskı',
+        req3D: '3D',
+        reqVideo: 'Video',
+        reqMobile: 'Mobil',
+        reqDesign: 'Tasarım',
+        noReqs: 'Özel gereksinim yok',
     },
     EN: {
         dashboard: 'Dashboard',
@@ -175,5 +207,37 @@ export const TRANSLATIONS = {
         // View actions
         showMetrics: 'Show Metrics',
         viewAll: 'View All Jobs',
+
+        // Job Editor (Drawer)
+        drawerDescription: 'Description',
+        drawerRequirements: 'Requirements',
+        drawerTimeline: 'Timeline',
+        drawerClientDeadline: 'Client Deadline',
+        drawerAgencyDeadline: 'Agency Deadline',
+        drawerJobTitle: 'Job Title',
+        drawerPlaceholderDesc: 'Enter job description...',
+        drawerBreadcrumb: 'Abramind',
+
+        // Drawer Tabs
+        tabClientChat: 'Client Chat',
+        tabInternalTeam: 'Internal Team',
+        tabActivityChat: 'Activity & Chat',
+        tabFiles: 'Files',
+
+        // Drawer Actions
+        dropFiles: 'Drag & Drop files here',
+        browseFiles: 'or click to browse',
+        msgPlaceholderClient: 'Message the client...',
+        msgPlaceholderInternal: 'Write a private note to team...',
+        noActivity: 'No recent activity',
+
+        // Requirement Types
+        reqSoftware: 'Software',
+        reqPrint: 'Print',
+        req3D: '3D',
+        reqVideo: 'Video',
+        reqMobile: 'Mobile',
+        reqDesign: 'Design',
+        noReqs: 'No specific requirements',
     }
 };

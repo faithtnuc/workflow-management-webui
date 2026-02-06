@@ -19,7 +19,21 @@ import {
     ChevronDown,
     Lightbulb,
     CreditCard,
-    UserCog
+    UserCog,
+    X,
+    Paperclip,
+    Send,
+    Calendar,
+    Download,
+    User,
+    List,
+    MoreVertical,
+    Printer,
+    Monitor,
+    Box,
+    Video,
+    Smartphone,
+    PenTool
 } from 'lucide-react';
 
 import { THEME } from './data/theme';
@@ -238,6 +252,309 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) =>
 );
 
 
+
+
+// Job Detail Drawer Component (Editor)
+const JobDrawer = ({ job, onClose, isOpen, lang }) => {
+    const [activeTab, setActiveTab] = useState('client'); // 'client' | 'internal'
+    const [status, setStatus] = useState(job?.status || 'In Progress');
+    const [isStatusOpen, setIsStatusOpen] = useState(false);
+    const [requirements, setRequirements] = useState(job?.requirements || []);
+
+    const t = TRANSLATIONS[lang];
+
+    // Reset local state when job changes
+    React.useEffect(() => {
+        if (job) {
+            setStatus(job.status);
+            setRequirements(job.requirements || []);
+        }
+    }, [job]);
+
+    // Requirements Configuration
+    const REQ_TYPES = [
+        { id: 'Software', icon: Monitor, label: t.reqSoftware },
+        { id: 'Print', icon: Printer, label: t.reqPrint },
+        { id: '3D', icon: Box, label: t.req3D },
+        { id: 'Video', icon: Video, label: t.reqVideo },
+        { id: 'Mobile', icon: Smartphone, label: t.reqMobile },
+        { id: 'Design', icon: PenTool, label: t.reqDesign },
+    ];
+
+    if (!job) return null;
+
+
+
+    // Helper to check if req is active
+    const isReqActive = (reqId) => {
+        return requirements.some(r => r.includes(reqId));
+    };
+
+    const toggleRequirement = (reqId) => {
+        if (isReqActive(reqId)) {
+            setRequirements(requirements.filter(r => !r.includes(reqId)));
+        } else {
+            setRequirements([...requirements, reqId]);
+        }
+    };
+
+    const handleStatusChange = (newStatus) => {
+        setStatus(newStatus);
+        setIsStatusOpen(false);
+    };
+
+    return (
+        <>
+            {/* Backdrop */}
+            <div
+                className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                onClick={onClose}
+            />
+
+            {/* Drawer - Wider (75%) */}
+            <div className={`fixed inset-y-0 right-0 w-[75%] max-w-5xl bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-out ${isOpen ? 'translate-x-0' : 'translate-x-full'} flex flex-col`}>
+
+                {/* Header (Action Bar) */}
+                <div className="h-16 border-b border-slate-200 flex items-center justify-between px-8 bg-white flex-shrink-0 z-10 w-full">
+                    <div className="flex items-center gap-4">
+                        <div className="flex flex-col">
+                            <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+                                <span>{t.drawerBreadcrumb}</span>
+                                <span>/</span>
+                                <span>#{job.id}</span>
+                            </div>
+                            {/* Breadcrumb style above, Title below */}
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        {/* Status Dropdown */}
+                        <div className="relative mr-4">
+                            <div
+                                onClick={() => setIsStatusOpen(!isStatusOpen)}
+                                className="cursor-pointer hover:opacity-80 transition-opacity"
+                            >
+                                <StatusBadge status={status} />
+                            </div>
+
+                            {isStatusOpen && (
+                                <div className="absolute top-full mt-2 right-0 w-40 bg-white rounded-xl shadow-xl border border-slate-100 py-1 z-50 animate-in fade-in slide-in-from-top-1">
+                                    {['Pending', 'In Progress', 'Review', 'Completed', 'Urgent'].map((s) => (
+                                        <button
+                                            key={s}
+                                            onClick={() => handleStatusChange(s)}
+                                            className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between group"
+                                        >
+                                            {s}
+                                            {status === s && <CheckCircle2 size={14} className="text-indigo-600" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="h-8 w-px bg-slate-200 mx-2"></div>
+
+                        {/* Action Icons */}
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Client Profile">
+                            <User size={18} />
+                        </button>
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Other Jobs">
+                            <List size={18} />
+                        </button>
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                            <MoreVertical size={18} />
+                        </button>
+
+                        <div className="h-8 w-px bg-slate-200 mx-2"></div>
+
+                        <button
+                            onClick={onClose}
+                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                        >
+                            <X size={20} />
+                        </button>
+                    </div>
+                </div>
+
+                {/* Main Content Grid */}
+                <div className="flex-1 flex overflow-hidden">
+
+                    {/* Left Column: The Work (60%) */}
+                    <div className="w-[60%] flex flex-col overflow-y-auto border-r border-slate-200 bg-white">
+                        <div className="p-8 space-y-8">
+
+                            {/* Title (Editable-ish) */}
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerJobTitle}</label>
+                                <input
+                                    type="text"
+                                    defaultValue={t[job.titleKey]}
+                                    className="w-full text-2xl font-bold text-slate-900 border-none p-0 focus:ring-0 placeholder:text-slate-300"
+                                />
+                            </div>
+
+                            {/* Deadline Management */}
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+                                    <label className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                                        <Calendar size={14} /> {t.drawerClientDeadline}
+                                    </label>
+                                    <input
+                                        type="date"
+                                        defaultValue={job.deadline}
+                                        className="w-full bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5"
+                                    />
+                                </div>
+                                <div className="p-4 rounded-xl border-l-4 border-l-red-500 border border-slate-200 bg-white shadow-sm">
+                                    <label className="flex items-center gap-2 text-xs font-bold text-red-600 uppercase tracking-wider mb-2">
+                                        <AlertCircle size={14} /> {t.drawerAgencyDeadline}
+                                    </label>
+                                    <input
+                                        type="date"
+                                        defaultValue={job.internalDeadline}
+                                        className="w-full bg-red-50 border border-red-100 text-red-900 text-sm font-semibold rounded-lg focus:ring-red-500 focus:border-red-500 block p-2.5"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Description (Textarea) */}
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerDescription}</label>
+                                <textarea
+                                    rows={6}
+                                    className="block p-4 w-full text-sm text-slate-900 bg-slate-50 rounded-xl border border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 leading-relaxed resize-none"
+                                    defaultValue={job.description}
+                                    placeholder={t.drawerPlaceholderDesc}
+                                ></textarea>
+                            </div>
+
+                            {/* Requirements (Toggle Grid) */}
+                            <div>
+                                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">{t.drawerRequirements}</label>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {REQ_TYPES.map((req) => {
+                                        const active = isReqActive(req.id);
+                                        const Icon = req.icon;
+                                        return (
+                                            <div
+                                                key={req.id}
+                                                onClick={() => toggleRequirement(req.id)}
+                                                className={`
+                                                    relative flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all cursor-pointer select-none group
+                                                    ${active
+                                                        ? 'border-indigo-500 bg-indigo-50/30'
+                                                        : 'border-slate-100 bg-white hover:border-indigo-200 hover:bg-slate-50'
+                                                    }
+                                                `}
+                                            >
+                                                {/* Toggle Switch Visual */}
+                                                <div className={`absolute top-3 right-3 w-8 h-4 rounded-full transition-colors ${active ? 'bg-indigo-500' : 'bg-slate-200'}`}>
+                                                    <div className={`absolute top-0.5 left-0.5 w-3 h-3 bg-white rounded-full shadow-sm transition-transform ${active ? 'translate-x-4' : 'translate-x-0'}`}></div>
+                                                </div>
+
+                                                <Icon size={24} className={`mb-3 ${active ? 'text-indigo-600' : 'text-slate-400 group-hover:text-indigo-400'}`} strokeWidth={1.5} />
+                                                <span className={`text-xs font-bold ${active ? 'text-indigo-900' : 'text-slate-500'}`}>{req.label}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {/* Right Column: Communication (40%) */}
+                    <div className="w-[40%] flex flex-col bg-[#F8FAFC]">
+
+                        {/* Custom Tabs */}
+                        <div className="flex p-2 gap-2 bg-white border-b border-slate-200">
+                            <button
+                                onClick={() => setActiveTab('client')}
+                                className={`flex-1 py-2 px-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === 'client' ? 'bg-blue-100 text-blue-700 shadow-sm' : 'text-slate-400 hover:bg-slate-50'}`}
+                            >
+                                <Users size={16} /> {t.tabClientChat}
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('internal')}
+                                className={`flex-1 py-2 px-3 rounded-lg text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === 'internal' ? 'bg-orange-100 text-orange-700 shadow-sm' : 'text-slate-400 hover:bg-slate-50'}`}
+                            >
+                                <UserCog size={16} /> {t.tabInternalTeam}
+                            </button>
+                        </div>
+
+                        {/* Chat Area */}
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                            {/* Filter logs based on visibility */}
+                            {job.activityLog && job.activityLog
+                                .filter(log => activeTab === 'internal' ? true : log.visibility !== 'internal') // Internal sees all, Client sees only client/public
+                                .map((log) => (
+                                    <div key={log.id} className="flex gap-3 items-start animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                        {log.type === 'log' ? (
+                                            <div className="w-full flex justify-center my-2">
+                                                <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                                                    {log.user} {log.text.toLowerCase()} • {log.timestamp}
+                                                </span>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm flex-shrink-0 ${log.visibility === 'internal' ? 'bg-orange-400' : 'bg-blue-500'}`}>
+                                                    {log.user.charAt(0)}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="flex items-baseline justify-between mb-1 ml-1">
+                                                        <span className="text-xs font-bold text-slate-900">{log.user}</span>
+                                                        <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                                    </div>
+                                                    <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${log.visibility === 'internal'
+                                                        ? 'bg-orange-50 text-orange-900 rounded-tl-none border border-orange-100'
+                                                        : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
+                                                        }`}>
+                                                        {log.text}
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                ))}
+
+                            {(!job.activityLog || job.activityLog.length === 0) && (
+                                <div className="flex flex-col items-center justify-center h-40 text-slate-400">
+                                    <MessageSquare size={32} className="mb-2 opacity-20" />
+                                    <span className="text-sm">{t.noActivity}</span>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Input Area */}
+                        <div className="p-4 bg-white border-t border-slate-200">
+                            <div className={`relative rounded-xl border transition-colors focus-within:ring-2 focus-within:ring-offset-1 ${activeTab === 'internal' ? 'border-orange-200 bg-orange-50/50 focus-within:ring-orange-400' : 'border-blue-200 bg-blue-50/50 focus-within:ring-blue-400'}`}>
+                                <input
+                                    type="text"
+                                    placeholder={activeTab === 'internal' ? t.msgPlaceholderInternal : t.msgPlaceholderClient}
+                                    className="w-full pl-4 pr-12 py-3 bg-transparent border-none text-sm focus:outline-none placeholder:text-slate-400 text-slate-700"
+                                />
+                                <button className={`absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-colors ${activeTab === 'internal' ? 'text-orange-600 hover:bg-orange-100' : 'text-blue-600 hover:bg-blue-100'}`}>
+                                    <Send size={16} />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* File Drop - Compact */}
+                        <div className="px-4 pb-4 bg-white">
+                            <div className="border-2 border-dashed border-slate-200 rounded-xl p-4 flex items-center justify-center gap-3 text-slate-400 hover:border-indigo-300 hover:bg-indigo-50/30 transition-all cursor-pointer">
+                                <Paperclip size={18} />
+                                <span className="text-xs font-semibold">{t.dropFiles}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
 /* -------------------------------------------------------------------------- */
 /*                               MAIN LAYOUT                                  */
 /* -------------------------------------------------------------------------- */
@@ -247,6 +564,7 @@ const App = () => {
     const [lang, setLang] = useState('TR');
     const [activeFilter, setActiveFilter] = useState('active'); // default 'active'
     const [isExpanded, setIsExpanded] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null); // Drawer state
     const t = TRANSLATIONS[lang];
 
     const filteredJobs = (activeClient
@@ -272,7 +590,13 @@ const App = () => {
         : MOCK_DB.jobs).filter(job => job.status === 'Review').length;
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
+        <div className="min-h-screen bg-[#F8FAFC] flex font-sans text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700 relative overflow-hidden">
+            <JobDrawer
+                job={selectedJob}
+                isOpen={!!selectedJob}
+                onClose={() => setSelectedJob(null)}
+                lang={lang}
+            />
 
             {/* Sidebar Navigation */}
             <Sidebar activeClient={activeClient} setActiveClient={setActiveClient} lang={lang} />
@@ -494,7 +818,11 @@ const App = () => {
                                             const statusKey = job.status.replace(' ', '');
                                             const statusLabel = t.status[statusKey] || job.status;
                                             return (
-                                                <tr key={job.id} className="hover:bg-slate-50/80 transition-colors group">
+                                                <tr
+                                                    key={job.id}
+                                                    onClick={() => setSelectedJob(job)}
+                                                    className="hover:bg-slate-50/80 transition-colors group cursor-pointer"
+                                                >
                                                     {/* ID */}
                                                     <td className="px-6 py-4 text-sm font-medium text-slate-900 group-hover:text-indigo-600 transition-colors">#{job.id}</td>
 

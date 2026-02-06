@@ -110,7 +110,7 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
                 ))}
 
                 <div className="mt-auto">
-                    <div className="w-10 h-10 rounded-full border-2 border-dashed border-slate-700 flex items-center justify-center text-slate-500 hover:text-indigo-400 hover:border-indigo-400 cursor-pointer transition-colors hover:bg-slate-800">
+                    <div className="w-10 h-10 rounded-full border-2 border-dashed border-slate-600 flex items-center justify-center text-slate-500 hover:text-indigo-400 hover:border-indigo-400 cursor-pointer transition-colors hover:bg-slate-800">
                         <Plus className="w-5 h-5" />
                     </div>
                 </div>

@@ -15,7 +15,11 @@ import {
     Clock3,
     AlertCircle,
     MessageSquare,
-    MessageCircle
+    MessageCircle,
+    ChevronDown,
+    Lightbulb,
+    CreditCard,
+    UserCog
 } from 'lucide-react';
 
 // Import Logos
@@ -101,7 +105,39 @@ const TRANSLATIONS = {
         jobSocialMedia: 'Sosyal Medya Kampanyası',
         jobSafetyVideo: 'Güvenlik Protokolü Videosu',
         jobSuitInterface: 'Suit Arayüz Mockup',
-        noJobs: 'Bu müşteri için aktif iş bulunamadı.'
+        jobMobileRefresh: 'Mobil Uygulama Yenileme',
+        noJobs: 'Bu müşteri için aktif iş bulunamadı.',
+
+        // New Menus
+        ideas: 'Fikirler',
+        finance: 'Finans',
+        hr: 'İK',
+
+        // Submenus
+        ideaAdd: 'Fikir Ekle',
+        ideaList: 'Fikirler',
+        ideaCategoryAdd: 'Fikir Kategori Ekle',
+        ideaCategories: 'Fikir Kategoriler',
+        nameAdd: 'İsim Ekle',
+        names: 'İsimler',
+        sloganAdd: 'Slogan Ekle',
+        slogans: 'Sloganlar',
+
+        clientAdd: 'Müşteri Ekle',
+        clientList: 'Müşteri Listele',
+
+        planning: 'Planlama',
+        completedJobs: 'Yapılan İşler',
+        employeesGeneral: 'Çalışanlar (Genel)',
+        employeesPrivate: 'Çalışanlar (Özel)',
+        designListing: 'Tasarım Listeleme',
+        employeeClient: 'Çalışan Müşteri',
+
+        // Quick Filters
+        filterAll: 'Tüm İşler',
+        filterMyJobs: 'Bana Atananlar',
+        filterUrgent: 'Acil İşler',
+        filterReview: 'Onay Bekleyen',
     },
     EN: {
         dashboard: 'Dashboard',
@@ -151,7 +187,39 @@ const TRANSLATIONS = {
         jobSocialMedia: 'Social Media Campaign',
         jobSafetyVideo: 'Safety Protocols Video',
         jobSuitInterface: 'Suit Interface Mockups',
-        noJobs: 'No active jobs found for this client.'
+        jobMobileRefresh: 'Mobile App Refresh',
+        noJobs: 'No active jobs found for this client.',
+
+        // New Menus (EN)
+        ideas: 'Ideas',
+        finance: 'Finance',
+        hr: 'HR',
+
+        // Submenus
+        ideaAdd: 'Add Idea',
+        ideaList: 'Ideas',
+        ideaCategoryAdd: 'Add Idea Category',
+        ideaCategories: 'Idea Categories',
+        nameAdd: 'Add Name',
+        names: 'Names',
+        sloganAdd: 'Add Slogan',
+        slogans: 'Slogans',
+
+        clientAdd: 'Add Client',
+        clientList: 'List Clients',
+
+        planning: 'Planning',
+        completedJobs: 'Completed Jobs',
+        employeesGeneral: 'Employees (General)',
+        employeesPrivate: 'Employees (Private)',
+        designListing: 'Design Listing',
+        employeeClient: 'Employee Client',
+
+        // Quick Filters (EN)
+        filterAll: 'All Jobs',
+        filterMyJobs: 'My Jobs',
+        filterUrgent: 'Urgent',
+        filterReview: 'Pending Review',
     }
 };
 
@@ -242,6 +310,17 @@ const MOCK_DB = {
             status: 'In Progress',
             messages: 0,
             internalMessages: 2
+        },
+        {
+            id: '10028',
+            clientId: 'c6',
+            titleKey: 'jobMobileRefresh',
+            requester: 'Gary O.',
+            deadline: '2023-11-28',
+            internalDeadline: '2023-11-26',
+            status: 'Review',
+            messages: 3,
+            internalMessages: 1
         },
     ]
 };
@@ -347,8 +426,20 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
                     <NavItem icon={<LayoutDashboard />} label={t.dashboard} active />
                     <NavItem icon={<Briefcase />} label={t.jobs} badge="12" />
                     <NavItem icon={<Users />} label={t.timesheets} />
-                    <NavItem icon={<Users />} label={t.reporting} />
-                    <NavItem icon={<FileText />} label={t.users} />
+                    <NavItem icon={<Users />} label={t.reporting} subItems={[t.clientAdd, t.clientList]} />
+                    <NavItem icon={<Lightbulb />} label={t.ideas} subItems={[
+                        t.ideaAdd, t.ideaList,
+                        t.ideaCategoryAdd, t.ideaCategories,
+                        t.nameAdd, t.names,
+                        t.sloganAdd, t.slogans
+                    ]} />
+                    <NavItem icon={<FileText />} label={t.users} subItems={[
+                        t.planning, t.completedJobs,
+                        t.employeesGeneral, t.employeesPrivate,
+                        t.designListing, t.employeeClient
+                    ]} />
+                    <NavItem icon={<CreditCard />} label={t.finance} />
+                    <NavItem icon={<UserCog />} label={t.hr} />
 
                     <div className="pt-6 mt-6 border-t border-slate-100">
                         <h3 className="px-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">{t.workspaces}</h3>
@@ -369,39 +460,75 @@ const Sidebar = ({ activeClient, setActiveClient, lang }) => {
     );
 };
 
-const NavItem = ({ icon, label, active = false, badge }) => (
-    <a href="#" className={`
-    group flex items-center px-2 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
-    ${active
-            ? 'bg-indigo-50 text-indigo-700'
-            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
-  `}>
-        <span className={`mr-3 ${active ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-500'}`}>
-            {React.cloneElement(icon, { size: 20 })}
-        </span>
-        {label}
-        {badge && (
-            <span className={`ml-auto px-2 py-0.5 rounded-full text-xs font-medium ${active ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'}`}>
-                {badge}
-            </span>
-        )}
-    </a>
-);
+const NavItem = ({ icon, label, active = false, badge, subItems }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const hasSubItems = subItems && subItems.length > 0;
+
+    const handleClick = (e) => {
+        if (hasSubItems) {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+        }
+    };
+
+    return (
+        <div className="flex flex-col">
+            <a
+                href="#"
+                onClick={handleClick}
+                className={`
+                    group flex items-center px-2 py-2.5 text-sm font-medium rounded-lg transition-all duration-200
+                    ${active ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
+                `}
+            >
+                <span className={`mr-3 ${active ? 'text-indigo-600' : 'text-slate-400 group-hover:text-slate-500'}`}>
+                    {React.cloneElement(icon, { size: 20 })}
+                </span>
+                <span className="flex-1">{label}</span>
+
+                {hasSubItems && (
+                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`} />
+                )}
+
+                {!hasSubItems && badge && (
+                    <span className={`ml-auto px-2 py-0.5 rounded-full text-xs font-medium ${active ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-600'}`}>
+                        {badge}
+                    </span>
+                )}
+            </a>
+
+            {/* Submenu */}
+            {hasSubItems && isOpen && (
+                <div className="ml-9 mt-1 space-y-1 border-l-2 border-slate-100 pl-3">
+                    {subItems.map((item, index) => (
+                        <a
+                            key={index}
+                            href="#"
+                            className="block py-1.5 text-xs font-medium text-slate-500 hover:text-indigo-600 transition-colors"
+                        >
+                            {item}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
 
 
 // Metric Card
 const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) => (
-    <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_10px_-4px_rgba(6,81,237,0.1)] hover:shadow-lg transition-all duration-300 group">
-        <div className="flex items-start justify-between mb-4">
+    <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-[0_2px_10px_-4px_rgba(6,81,237,0.1)] hover:shadow-lg transition-all duration-300 group">
+        <div className="flex items-start justify-between mb-2">
             <div>
-                <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
-                <h3 className="text-3xl font-bold text-slate-900 tracking-tight">{value}</h3>
+                <p className="text-xs font-medium text-slate-500 mb-0.5">{title}</p>
+                <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{value}</h3>
             </div>
-            <div className="p-2.5 bg-indigo-50 rounded-xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
-                <Icon size={22} strokeWidth={2} />
+            <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                <Icon size={20} strokeWidth={2} />
             </div>
         </div>
-        <div className="flex items-center text-sm">
+        <div className="flex items-center text-xs">
             {trend === 'up' && <span className="text-emerald-600 font-medium flex items-center">↑ 12% <span className="text-slate-400 ml-1 font-normal">{trendLabel}</span></span>}
             {trend === 'down' && <span className="text-red-500 font-medium flex items-center">↓ 2% <span className="text-slate-400 ml-1 font-normal">{trendLabel}</span></span>}
             {!trend && <span className="text-slate-400">{subtext}</span>}
@@ -417,11 +544,18 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) =>
 const App = () => {
     const [activeClient, setActiveClient] = useState(null);
     const [lang, setLang] = useState('TR');
+    const [activeFilter, setActiveFilter] = useState('all'); // 'all', 'myJobs', 'urgent', 'review'
     const t = TRANSLATIONS[lang];
 
-    const filteredJobs = activeClient
+    const filteredJobs = (activeClient
         ? MOCK_DB.jobs.filter(job => job.clientId === activeClient)
-        : MOCK_DB.jobs;
+        : MOCK_DB.jobs).filter(job => {
+            if (activeFilter === 'all') return true;
+            if (activeFilter === 'myJobs') return job.requester === 'Sarah Connor';
+            if (activeFilter === 'urgent') return job.status === 'Urgent';
+            if (activeFilter === 'review') return job.status === 'Review';
+            return true;
+        });
 
     // Calculate total unread messages from all clients
     const totalUnreadMessages = MOCK_DB.clients.reduce((sum, client) => sum + client.unreadMessages, 0);
@@ -508,17 +642,30 @@ const App = () => {
 
                 {/* Dashboard Content - Scrollable */}
                 <main className="flex-1 overflow-y-auto p-8">
-                    <div className="max-w-7xl mx-auto space-y-8">
+                    <div className="w-full mx-auto space-y-8">
 
-                        {/* Header Section */}
+                        {/* Header Section with Quick Filters */}
                         <div className="flex items-center justify-between">
-                            <div>
-                                <h1 className="text-2xl font-bold text-slate-900 tracking-tight">{t.overviewTitle}</h1>
-                                <p className="text-slate-500 mt-1">
-                                    {activeClient
-                                        ? `${t.viewingFor} ${MOCK_DB.clients.find(c => c.id === activeClient)?.name}`
-                                        : t.welcomeBack}
-                                </p>
+                            <div className="flex items-center gap-1 bg-slate-100/50 p-1 rounded-xl">
+                                {[
+                                    { id: 'all', label: t.filterAll },
+                                    { id: 'myJobs', label: t.filterMyJobs },
+                                    { id: 'urgent', label: t.filterUrgent },
+                                    { id: 'review', label: t.filterReview }
+                                ].map(tab => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveFilter(tab.id)}
+                                        className={`
+                                            px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200
+                                            ${activeFilter === tab.id
+                                                ? 'bg-slate-900 text-white shadow-md'
+                                                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}
+                                        `}
+                                    >
+                                        {tab.label}
+                                    </button>
+                                ))}
                             </div>
                             <div className="flex gap-3">
                                 <button className="flex items-center px-4 py-2 border border-slate-200 rounded-lg text-slate-600 bg-white hover:bg-slate-50 text-sm font-medium shadow-sm transition-all">

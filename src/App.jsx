@@ -354,6 +354,30 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
         }
     };
 
+    const formatTimestamp = (timestampStr) => {
+        if (!timestampStr) return '';
+        // If it's already in TR format (DD.MM.YYYY), return as is
+        if (timestampStr.includes('.') && timestampStr.split('.')[0].length === 2) return timestampStr;
+
+        try {
+            const date = new Date(timestampStr);
+            if (isNaN(date.getTime())) return timestampStr;
+
+            if (lang === 'TR') {
+                return date.toLocaleString('tr-TR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            return timestampStr; // Default for EN
+        } catch (e) {
+            return timestampStr;
+        }
+    };
+
     if (!job) return null;
 
     // Helper to check if req is active
@@ -721,7 +745,7 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                                 {log.type === 'log' ? (
                                                     <div className="w-full flex justify-center my-2">
                                                         <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                                                            {log.user} {log.text.toLowerCase()} • {log.timestamp}
+                                                            {log.user} {log.text.toLowerCase()} • {formatTimestamp(log.timestamp)}
                                                         </span>
                                                     </div>
                                                 ) : (
@@ -732,7 +756,7 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                                         <div className={`flex-1 flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
                                                             <div className={`flex items-baseline gap-2 mb-1 ${isMe ? 'flex-row-reverse' : ''}`}>
                                                                 <span className="text-xs font-bold text-slate-900">{log.user}</span>
-                                                                <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                                                <span className="text-[10px] text-slate-400">{formatTimestamp(log.timestamp)}</span>
                                                             </div>
                                                             <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm max-w-[90%] ${isMe
                                                                 ? 'bg-indigo-600 text-white rounded-tr-none'

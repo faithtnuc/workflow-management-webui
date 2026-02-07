@@ -6,12 +6,13 @@ import logoMaison from '../assets/logos/logo_maison.svg';
 import logoPhyllant from '../assets/logos/logo_phyllant.svg';
 import logoPithema from '../assets/logos/logo_pithema.svg';
 import logoProwa from '../assets/logos/logo_prowa.svg';
+import logoParflux from '../assets/logos/logo_parflux.svg';
 
 export const MOCK_DB = {
     user: {
-        name: 'Alex Jensen',
+        name: 'Mert Tunç',
         role: 'Senior Producer',
-        avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+        avatar: logoParflux,
         notifications: 3
     },
     stats: {
@@ -43,22 +44,22 @@ export const MOCK_DB = {
             descriptionTR: "Q3 için kapsamlı pazarlama kampanyası stratejisi, sosyal medya artışı ve etkileyici ortaklıkları dahil.",
             requesterEmail: 'sarah.connor@sienna.com',
             createdAt: '2023-10-20',
-            assignee: 'Alex Jensen',
+            assignee: 'Mert Tunç',
             isClientVisible: true,
             requirements: ["Strategy", "Social Media", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Initial draft is ready for review. I focused on the "modern" look.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Initial draft is ready for review. I focused on the "modern" look.', user: 'Mert Tunç', timestamp: '2023-10-25 14:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Looks good, minor tweaks on the budget section needed. Can we make the font larger?', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' },
-                { id: 4, type: 'comment', text: 'Sure, I will update the typography and send a new version by EOD.', user: 'Alex Jensen', timestamp: '2023-10-26 11:00', visibility: 'client' },
-                { id: 5, type: 'comment', text: 'Internal Note: Check if we have the license for that font.', user: 'Alex Jensen', timestamp: '2023-10-26 11:05', visibility: 'internal' }
+                { id: 4, type: 'comment', text: 'Sure, I will update the typography and send a new version by EOD.', user: 'Mert Tunç', timestamp: '2023-10-26 11:00', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Internal Note: Check if we have the license for that font.', user: 'Mert Tunç', timestamp: '2023-10-26 11:05', visibility: 'internal' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'İlk taslak inceleme için hazır. "Modern" görünüme odaklandım.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'İlk taslak inceleme için hazır. "Modern" görünüme odaklandım.', user: 'Mert Tunç', timestamp: '2023-10-25 14:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Güzel görünüyor, bütçe bölümünde ufak değişiklikler gerekiyor. Fontu büyütebilir miyiz?', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' },
-                { id: 4, type: 'comment', text: 'Tabii, tipografiyi güncelleyip gün sonuna kadar yeni bir versiyon göndereceğim.', user: 'Alex Jensen', timestamp: '2023-10-26 11:00', visibility: 'client' },
-                { id: 5, type: 'comment', text: 'Dahili Not: O fontun lisansına sahip olup olmadığımızı kontrol et.', user: 'Alex Jensen', timestamp: '2023-10-26 11:05', visibility: 'internal' }
+                { id: 4, type: 'comment', text: 'Tabii, tipografiyi güncelleyip gün sonuna kadar yeni bir versiyon göndereceğim.', user: 'Mert Tunç', timestamp: '2023-10-26 11:00', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Dahili Not: O fontun lisansına sahip olup olmadığımızı kontrol et.', user: 'Mert Tunç', timestamp: '2023-10-26 11:05', visibility: 'internal' }
             ],
             files: [
                 { id: 'f1', name: 'Q3_Strategy_Brief.pdf', type: 'pdf', size: '2.4 MB', url: '#' },
@@ -80,22 +81,22 @@ export const MOCK_DB = {
             descriptionTR: "Yeni marka yönergelerine uyum sağlamak için kurumsal ana sayfanın tam tasarımı. Dönüşüm optimizasyonu ve mobil uyumluluğa odaklanın.",
             requesterEmail: 'hank.scorpio@abramind.com',
             createdAt: '2023-10-01',
-            assignee: 'Alex Jensen',
+            assignee: 'Mert Tunç',
             isClientVisible: false,
             requirements: ["UX/UI Design", "Frontend Dev", "SEO", "Accessibility"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Wireframes approved. Moving to high-fidelity designs.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
-                { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Wireframes approved. Moving to high-fidelity designs.', user: 'Mert Tunç', timestamp: '2023-10-05 16:45', visibility: 'client' },
+                { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Mert Tunç', timestamp: '2023-10-05 16:50', visibility: 'internal' },
                 { id: 4, type: 'comment', text: 'I really like the new direction! Can we make the logo pop more?', user: 'Hank Scorpio', timestamp: '2023-10-06 09:30', visibility: 'client' },
-                { id: 5, type: 'comment', text: 'Absolutely, I will add more contrast to the header area.', user: 'Alex Jensen', timestamp: '2023-10-06 10:00', visibility: 'client' }
+                { id: 5, type: 'comment', text: 'Absolutely, I will add more contrast to the header area.', user: 'Mert Tunç', timestamp: '2023-10-06 10:00', visibility: 'client' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Tel kafesler onaylandı. Yüksek sadakatli tasarımlara geçiliyor.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
-                { id: 3, type: 'comment', text: 'Dahili not: Müşteri renk paleti konusunda hassas.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Tel kafesler onaylandı. Yüksek sadakatli tasarımlara geçiliyor.', user: 'Mert Tunç', timestamp: '2023-10-05 16:45', visibility: 'client' },
+                { id: 3, type: 'comment', text: 'Dahili not: Müşteri renk paleti konusunda hassas.', user: 'Mert Tunç', timestamp: '2023-10-05 16:50', visibility: 'internal' },
                 { id: 4, type: 'comment', text: 'Yeni yönü gerçekten beğendim! Logoyu daha belirgin yapabilir miyiz?', user: 'Hank Scorpio', timestamp: '2023-10-06 09:30', visibility: 'client' },
-                { id: 5, type: 'comment', text: 'Kesinlikle, başlık alanına daha fazla kontrast ekleyeceğim.', user: 'Alex Jensen', timestamp: '2023-10-06 10:00', visibility: 'client' }
+                { id: 5, type: 'comment', text: 'Kesinlikle, başlık alanına daha fazla kontrast ekleyeceğim.', user: 'Mert Tunç', timestamp: '2023-10-06 10:00', visibility: 'client' }
             ],
             files: [
                 { id: 'f1', name: 'Homepage_Wireframes_v2.fig', type: 'design', size: '12 MB', url: '#' },
@@ -116,7 +117,7 @@ export const MOCK_DB = {
             descriptionTR: "Yeni beslenme rehberi PDF'si için tasarım ve düzen. Baskıya hazır ve dijital dağıtım için erişilebilir olmalı.",
             requesterEmail: 'richard.t@maison.com',
             createdAt: '2023-10-28',
-            assignee: 'Sarah Miller',
+            assignee: 'Fatih Tunç',
             isClientVisible: true,
             requirements: ["Graphic Design", "Print Layout", "Illustration"],
             activityLog: [
@@ -223,17 +224,17 @@ export const MOCK_DB = {
             descriptionTR: "Q3 kampanyası için takip pazarlama materyalleri.",
             requesterEmail: 'sarah.connor@sienna.com',
             createdAt: '2023-11-20',
-            assignee: 'Emily Zhang',
+            assignee: 'Elif Kaya',
             isClientVisible: true,
             requirements: ["Strategy", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-11-20 09:45', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'We need to align this with the main campaign.', user: 'Alex Jensen', timestamp: '2023-11-21 15:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'We need to align this with the main campaign.', user: 'Mert Tunç', timestamp: '2023-11-21 15:00', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Can we get a timeline on this?', user: 'Sarah Connor', timestamp: '2023-11-22 11:20', visibility: 'client' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Sarah Connor', timestamp: '2023-11-20 09:45', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Bunu ana kampanya ile hizalamamız gerekiyor.', user: 'Alex Jensen', timestamp: '2023-11-21 15:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Bunu ana kampanya ile hizalamamız gerekiyor.', user: 'Mert Tunç', timestamp: '2023-11-21 15:00', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Bunun için bir zaman çizelgesi alabilir miyiz?', user: 'Sarah Connor', timestamp: '2023-11-22 11:20', visibility: 'client' }
             ]
         },
@@ -251,16 +252,16 @@ export const MOCK_DB = {
             descriptionTR: "Ana sayfa tasarımının 2. aşaması: Uygulama.",
             requesterEmail: 'hank.scorpio@abramind.com',
             createdAt: '2023-11-25',
-            assignee: 'James Chen',
+            assignee: 'Cemre Demir',
             isClientVisible: true,
             requirements: ["Frontend Dev", "Testing"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-11-25 10:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Staging environment is ready.', user: 'Alex Jensen', timestamp: '2023-11-28 14:00', visibility: 'internal' }
+                { id: 2, type: 'comment', text: 'Staging environment is ready.', user: 'Mert Tunç', timestamp: '2023-11-28 14:00', visibility: 'internal' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Hank Scorpio', timestamp: '2023-11-25 10:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Evreleme ortamı hazır.', user: 'Alex Jensen', timestamp: '2023-11-28 14:00', visibility: 'internal' }
+                { id: 2, type: 'comment', text: 'Evreleme ortamı hazır.', user: 'Mert Tunç', timestamp: '2023-11-28 14:00', visibility: 'internal' }
             ]
         },
         {
@@ -277,7 +278,7 @@ export const MOCK_DB = {
             descriptionTR: "Yasal incelemeye dayalı beslenme rehberi revizyonları.",
             requesterEmail: 'richard.t@maison.com',
             createdAt: '2023-12-01',
-            assignee: 'Sarah Miller',
+            assignee: 'Fatih Tunç',
             isClientVisible: true,
             requirements: ["Graphic Design", "Print Layout"],
             activityLog: [
@@ -303,17 +304,17 @@ export const MOCK_DB = {
             descriptionTR: "Güvenlik videosunun son kurgu incelemesi.",
             requesterEmail: 'albert.w@phyllant.com',
             createdAt: '2023-12-04',
-            assignee: 'Alex Jensen',
+            assignee: 'Mert Tunç',
             isClientVisible: true,
             requirements: ["Video Editing"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Albert W.', timestamp: '2023-12-04 08:45', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Final render looks clean.', user: 'Alex Jensen', timestamp: '2023-12-06 16:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Final render looks clean.', user: 'Mert Tunç', timestamp: '2023-12-06 16:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Approved for distribution.', user: 'Albert W.', timestamp: '2023-12-07 09:20', visibility: 'client' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Albert W.', timestamp: '2023-12-04 08:45', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Son render temiz görünüyor.', user: 'Alex Jensen', timestamp: '2023-12-06 16:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Son render temiz görünüyor.', user: 'Mert Tunç', timestamp: '2023-12-06 16:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Dağıtım için onaylandı.', user: 'Albert W.', timestamp: '2023-12-07 09:20', visibility: 'client' }
             ]
         },
@@ -331,7 +332,7 @@ export const MOCK_DB = {
             descriptionTR: "HUD öğelerinin son cilası.",
             requesterEmail: 'pepper.potts@pithema.com',
             createdAt: '2023-12-05',
-            assignee: 'Sarah Miller',
+            assignee: 'Fatih Tunç',
             isClientVisible: false,
             requirements: ["UI Design", "Motion Graphics"],
             activityLog: [
@@ -355,24 +356,24 @@ export const MOCK_DB = {
             descriptionTR: "Mobil uygulama simgelerini ve açılış ekranını yenileme.",
             requesterEmail: 'gary.o@prowa.com',
             createdAt: '2023-12-08',
-            assignee: 'Emily Zhang',
+            assignee: 'Elif Kaya',
             isClientVisible: true,
             requirements: ["Iconography", "Mobile Design"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Gary O.', timestamp: '2023-12-08 11:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'New icons are ready for review.', user: 'Alex Jensen', timestamp: '2023-12-10 14:45', visibility: 'internal' }
+                { id: 2, type: 'comment', text: 'New icons are ready for review.', user: 'Mert Tunç', timestamp: '2023-12-10 14:45', visibility: 'internal' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Gary O.', timestamp: '2023-12-08 11:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Yeni simgeler inceleme için hazır.', user: 'Alex Jensen', timestamp: '2023-12-10 14:45', visibility: 'internal' }
+                { id: 2, type: 'comment', text: 'Yeni simgeler inceleme için hazır.', user: 'Mert Tunç', timestamp: '2023-12-10 14:45', visibility: 'internal' }
             ]
         },
     ],
     // Mock Users for Assignee Selector
     users: [
-        { id: 'u1', name: 'Alex Jensen', role: 'Senior Producer', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
-        { id: 'u2', name: 'Sarah Miller', role: 'Designer', avatar: 'https://i.pravatar.cc/150?u=2' },
-        { id: 'u3', name: 'James Chen', role: 'Developer', avatar: 'https://i.pravatar.cc/150?u=3' },
-        { id: 'u4', name: 'Emily Zhang', role: 'Copywriter', avatar: 'https://i.pravatar.cc/150?u=4' },
+        { id: 'u1', name: 'Mert Tunç', role: 'Senior Producer', avatar: logoParflux },
+        { id: 'u2', name: 'Fatih Tunç', role: 'Developer', avatar: logoParflux },
+        { id: 'u3', name: 'Cemre Demir', role: 'Designer', avatar: 'https://i.pravatar.cc/150?u=3' },
+        { id: 'u4', name: 'Elif Kaya', role: 'Copywriter', avatar: 'https://i.pravatar.cc/150?u=4' },
     ]
 };

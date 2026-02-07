@@ -48,13 +48,22 @@ export const MOCK_DB = {
             requirements: ["Strategy", "Social Media", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'Initial draft is ready for review.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
-                { id: 3, type: 'comment', text: 'Looks good, minor tweaks on the budget section needed.', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' }
+                { id: 2, type: 'comment', text: 'Initial draft is ready for review. I focused on the "modern" look.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Looks good, minor tweaks on the budget section needed. Can we make the font larger?', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' },
+                { id: 4, type: 'comment', text: 'Sure, I will update the typography and send a new version by EOD.', user: 'Alex Jensen', timestamp: '2023-10-26 11:00', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Internal Note: Check if we have the license for that font.', user: 'Alex Jensen', timestamp: '2023-10-26 11:05', visibility: 'internal' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
-                { id: 2, type: 'comment', text: 'İlk taslak inceleme için hazır.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
-                { id: 3, type: 'comment', text: 'Güzel görünüyor, bütçe bölümünde ufak değişiklikler gerekiyor.', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' }
+                { id: 2, type: 'comment', text: 'İlk taslak inceleme için hazır. "Modern" görünüme odaklandım.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Güzel görünüyor, bütçe bölümünde ufak değişiklikler gerekiyor. Fontu büyütebilir miyiz?', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' },
+                { id: 4, type: 'comment', text: 'Tabii, tipografiyi güncelleyip gün sonuna kadar yeni bir versiyon göndereceğim.', user: 'Alex Jensen', timestamp: '2023-10-26 11:00', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Dahili Not: O fontun lisansına sahip olup olmadığımızı kontrol et.', user: 'Alex Jensen', timestamp: '2023-10-26 11:05', visibility: 'internal' }
+            ],
+            files: [
+                { id: 'f1', name: 'Q3_Strategy_Brief.pdf', type: 'pdf', size: '2.4 MB', url: '#' },
+                { id: 'f2', name: 'Sienna_Assets_V1.zip', type: 'archive', size: '156 MB', url: '#' },
+                { id: 'f3', name: 'Moodboard_Q3.jpg', type: 'image', size: '4.1 MB', url: '#' }
             ]
         },
         {
@@ -77,12 +86,20 @@ export const MOCK_DB = {
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
                 { id: 2, type: 'comment', text: 'Wireframes approved. Moving to high-fidelity designs.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
-                { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' }
+                { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' },
+                { id: 4, type: 'comment', text: 'I really like the new direction! Can we make the logo pop more?', user: 'Hank Scorpio', timestamp: '2023-10-06 09:30', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Absolutely, I will add more contrast to the header area.', user: 'Alex Jensen', timestamp: '2023-10-06 10:00', visibility: 'client' }
             ],
             activityLogTR: [
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
                 { id: 2, type: 'comment', text: 'Tel kafesler onaylandı. Yüksek sadakatli tasarımlara geçiliyor.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
-                { id: 3, type: 'comment', text: 'Dahili not: Müşteri renk paleti konusunda hassas.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' }
+                { id: 3, type: 'comment', text: 'Dahili not: Müşteri renk paleti konusunda hassas.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' },
+                { id: 4, type: 'comment', text: 'Yeni yönü gerçekten beğendim! Logoyu daha belirgin yapabilir miyiz?', user: 'Hank Scorpio', timestamp: '2023-10-06 09:30', visibility: 'client' },
+                { id: 5, type: 'comment', text: 'Kesinlikle, başlık alanına daha fazla kontrast ekleyeceğim.', user: 'Alex Jensen', timestamp: '2023-10-06 10:00', visibility: 'client' }
+            ],
+            files: [
+                { id: 'f1', name: 'Homepage_Wireframes_v2.fig', type: 'design', size: '12 MB', url: '#' },
+                { id: 'f2', name: 'Abramind_Logo_Pack.zip', type: 'archive', size: '45 MB', url: '#' }
             ]
         },
         {
@@ -159,6 +176,11 @@ export const MOCK_DB = {
                 { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Albert W.', timestamp: '2023-11-05 09:15', visibility: 'internal' },
                 { id: 2, type: 'comment', text: 'Ham görüntüler sunucuya yüklendi.', user: 'Alex Jensen', timestamp: '2023-11-06 11:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Lütfen 3. sahnedeki ses seviyelerini kontrol edin.', user: 'Albert W.', timestamp: '2023-11-06 14:20', visibility: 'client' }
+            ],
+            files: [
+                { id: 'f1', name: 'Safety_Script_Final.pdf', type: 'pdf', size: '1.2 MB', url: '#' },
+                { id: 'f2', name: 'Raw_Footage_Scene1.mp4', type: 'video', size: '450 MB', url: '#' },
+                { id: 'f3', name: 'phyllant_intro_animation.mov', type: 'video', size: '85 MB', url: '#' }
             ]
         },
         {

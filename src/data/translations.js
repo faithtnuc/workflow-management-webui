@@ -133,6 +133,8 @@ export const TRANSLATIONS = {
         drawerHidden: 'Gizle',
         drawerUrgentYes: 'Acil',
         drawerUrgentNo: 'Acil Değil',
+        drawerFiles: 'Dosyalar',
+        btnDownload: 'İndir',
 
         // Drawer Tabs
         tabClientChat: 'Müşteri Sohbeti',
@@ -289,6 +291,8 @@ export const TRANSLATIONS = {
         drawerHidden: 'Hidden',
         drawerUrgentYes: 'Urgent',
         drawerUrgentNo: 'Not Urgent',
+        drawerFiles: 'Files',
+        btnDownload: 'Download',
 
         // Drawer Tabs
         tabClientChat: 'Client Chat',

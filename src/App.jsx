@@ -33,7 +33,9 @@ import {
     Box,
     Video,
     Smartphone,
-    PenTool
+    PenTool,
+    Image,
+    FileArchive
 } from 'lucide-react';
 
 import { THEME } from './data/theme';
@@ -342,6 +344,16 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
         { id: 'Design', icon: PenTool, label: t.reqDesign },
     ];
 
+    const getFileIcon = (type) => {
+        switch (type) {
+            case 'pdf': return <FileText size={20} className="text-red-500" />;
+            case 'image': return <Image size={20} className="text-blue-500" />;
+            case 'video': return <Video size={20} className="text-purple-500" />;
+            case 'archive': return <FileArchive size={20} className="text-yellow-500" />;
+            default: return <FileText size={20} className="text-slate-400" />;
+        }
+    };
+
     if (!job) return null;
 
     // Helper to check if req is active
@@ -647,6 +659,32 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                 </div>
                             </div>
 
+                            {/* Files Section */}
+                            {job.files && job.files.length > 0 && (
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">{t.drawerFiles}</label>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        {job.files.map((file) => (
+                                            <div key={file.id} className="group relative flex items-center p-3 gap-3 bg-slate-50 border border-slate-200 rounded-xl hover:border-indigo-300 hover:shadow-sm transition-all">
+                                                <div className="p-2 bg-white rounded-lg border border-slate-100 group-hover:border-indigo-100 transition-colors">
+                                                    {getFileIcon(file.type)}
+                                                </div>
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="text-sm font-medium text-slate-700 truncate">{file.name}</div>
+                                                    <div className="text-[10px] font-semibold text-slate-400 uppercase">{file.type} • {file.size}</div>
+                                                </div>
+                                                <button
+                                                    className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                                    title={t.btnDownload}
+                                                >
+                                                    <Download size={16} />
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                     </div>
 
@@ -676,35 +714,41 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                 const logs = lang === 'TR' ? (job.activityLogTR || job.activityLog) : job.activityLog;
                                 return logs && logs
                                     .filter(log => activeTab === 'internal' ? true : log.visibility !== 'internal') // Internal sees all, Client sees only client/public
-                                    .map((log) => (
-                                        <div key={log.id} className="flex gap-3 items-start animate-in fade-in slide-in-from-bottom-2 duration-300">
-                                            {log.type === 'log' ? (
-                                                <div className="w-full flex justify-center my-2">
-                                                    <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                                                        {log.user} {log.text.toLowerCase()} • {log.timestamp}
-                                                    </span>
-                                                </div>
-                                            ) : (
-                                                <>
-                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm flex-shrink-0 ${log.visibility === 'internal' ? 'bg-orange-400' : 'bg-blue-500'}`}>
-                                                        {log.user.charAt(0)}
+                                    .map((log) => {
+                                        const isMe = log.user === MOCK_DB.user.name;
+                                        return (
+                                            <div key={log.id} className={`flex gap-3 items-start animate-in fade-in slide-in-from-bottom-2 duration-300 ${isMe ? 'flex-row-reverse' : ''}`}>
+                                                {log.type === 'log' ? (
+                                                    <div className="w-full flex justify-center my-2">
+                                                        <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                                                            {log.user} {log.text.toLowerCase()} • {log.timestamp}
+                                                        </span>
                                                     </div>
-                                                    <div className="flex-1">
-                                                        <div className="flex items-baseline justify-between mb-1 ml-1">
-                                                            <span className="text-xs font-bold text-slate-900">{log.user}</span>
-                                                            <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                                ) : (
+                                                    <>
+                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm flex-shrink-0 ${isMe ? 'bg-indigo-600' : (log.visibility === 'internal' ? 'bg-orange-400' : 'bg-blue-500')}`}>
+                                                            {log.user.charAt(0)}
                                                         </div>
-                                                        <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${log.visibility === 'internal'
-                                                            ? 'bg-orange-50 text-orange-900 rounded-tl-none border border-orange-100'
-                                                            : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
-                                                            }`}>
-                                                            {log.text}
+                                                        <div className={`flex-1 flex flex-col ${isMe ? 'items-end' : 'items-start'}`}>
+                                                            <div className={`flex items-baseline gap-2 mb-1 ${isMe ? 'flex-row-reverse' : ''}`}>
+                                                                <span className="text-xs font-bold text-slate-900">{log.user}</span>
+                                                                <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                                            </div>
+                                                            <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm max-w-[90%] ${isMe
+                                                                ? 'bg-indigo-600 text-white rounded-tr-none'
+                                                                : (log.visibility === 'internal'
+                                                                    ? 'bg-orange-50 text-orange-900 rounded-tl-none border border-orange-100'
+                                                                    : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
+                                                                )
+                                                                }`}>
+                                                                {log.text}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-                                    ));
+                                                    </>
+                                                )}
+                                            </div>
+                                        );
+                                    });
                             })()}
 
                             {((!job.activityLog || job.activityLog.length === 0) && (!job.activityLogTR || job.activityLogTR.length === 0)) && (

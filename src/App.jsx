@@ -262,9 +262,12 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
         requirements: [],
         internalDeadline: '',
         description: '',
-        title: ''
+        title: '',
+        assignee: 'u1',
+        isClientVisible: true
     });
     const [isStatusOpen, setIsStatusOpen] = useState(false);
+    const [isAssigneeOpen, setIsAssigneeOpen] = useState(false);
 
     const t = TRANSLATIONS[lang];
 
@@ -276,7 +279,9 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                 requirements: job.requirements || [],
                 internalDeadline: job.internalDeadline || '',
                 description: lang === 'TR' ? (job.descriptionTR || job.description) : job.description,
-                title: lang === 'TR' ? (t[job.titleKey] || job.titleKey) : (t[job.titleKey] || job.titleKey) // Use translated title as init value
+                title: lang === 'TR' ? (t[job.titleKey] || job.titleKey) : (t[job.titleKey] || job.titleKey),
+                assignee: MOCK_DB.users.find(u => u.name === job.assignee)?.id || 'u1',
+                isClientVisible: job.isClientVisible !== undefined ? job.isClientVisible : true
             });
         }
     }, [job, lang, t]);
@@ -294,8 +299,10 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
         const isStatusChanged = formState.status !== job.status;
         const isReqChanged = JSON.stringify(formState.requirements.sort()) !== JSON.stringify((job.requirements || []).sort());
         const isDeadlineChanged = formState.internalDeadline !== (job.internalDeadline || '');
+        const isAssigneeChanged = formState.assignee !== (MOCK_DB.users.find(u => u.name === job.assignee)?.id || 'u1');
+        const isVisibilityChanged = formState.isClientVisible !== (job.isClientVisible !== undefined ? job.isClientVisible : true);
 
-        return isDescChanged || isStatusChanged || isReqChanged || isDeadlineChanged;
+        return isDescChanged || isStatusChanged || isReqChanged || isDeadlineChanged || isAssigneeChanged || isVisibilityChanged;
     };
 
     const handleSave = () => {
@@ -303,6 +310,8 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
         job.status = formState.status;
         job.requirements = formState.requirements;
         job.internalDeadline = formState.internalDeadline;
+        job.assignee = MOCK_DB.users.find(u => u.id === formState.assignee)?.name;
+        job.isClientVisible = formState.isClientVisible;
 
         if (lang === 'TR') {
             job.descriptionTR = formState.description;
@@ -370,7 +379,7 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                     <div className="flex items-center gap-4">
                         <div className="flex flex-col">
                             <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                                <span>{t.drawerBreadcrumb}</span>
+                                <span className="font-semibold text-slate-600">{MOCK_DB.clients.find(c => c.id === job.clientId)?.name}</span>
                                 <span>/</span>
                                 <span>#{job.id}</span>
                             </div>
@@ -383,9 +392,12 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                         <div className="relative mr-4">
                             <div
                                 onClick={() => setIsStatusOpen(!isStatusOpen)}
-                                className="cursor-pointer hover:opacity-80 transition-opacity"
+                                className="cursor-pointer transition-all"
                             >
-                                <StatusBadge status={formState.status} label={t['status' + formState.status.replace(/\s/g, '')]} />
+                                <div className="flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all group">
+                                    <StatusBadge status={formState.status} label={t['status' + formState.status.replace(/\s/g, '')]} />
+                                    <ChevronDown size={14} className="text-slate-400 group-hover:text-slate-600 ml-1" />
+                                </div>
                             </div>
 
                             {isStatusOpen && (
@@ -448,15 +460,121 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                     <div className="w-[60%] flex flex-col overflow-y-auto border-r border-slate-200 bg-white">
                         <div className="p-8 space-y-8">
 
-                            {/* Title (Editable) */}
-                            <div>
-                                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerJobTitle}</label>
-                                <input
-                                    type="text"
-                                    value={formState.title} // Used formState
-                                    onChange={(e) => setFormState({ ...formState, title: e.target.value })}
-                                    className="w-full text-2xl font-bold text-slate-900 border-none p-0 focus:ring-0 placeholder:text-slate-300"
-                                />
+                            {/* Job Meta Header */}
+                            <div className="space-y-4">
+                                {/* Title (Editable) */}
+                                <div>
+                                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerJobTitle}</label>
+                                    <input
+                                        type="text"
+                                        value={formState.title}
+                                        onChange={(e) => setFormState({ ...formState, title: e.target.value })}
+                                        className="w-full text-2xl font-bold text-slate-900 border-none p-0 focus:ring-0 placeholder:text-slate-300"
+                                    />
+                                </div>
+
+                                {/* Meta Grid: Creator, Date, Urgency */}
+                                <div className="grid grid-cols-3 gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                                    {/* Creator */}
+                                    <div>
+                                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.drawerCreatedBy}</div>
+                                        <div className="text-xs font-semibold text-slate-700 truncate" title={`${MOCK_DB.clients.find(c => c.id === job.clientId)?.name} / ${job.requester}`}>
+                                            {MOCK_DB.clients.find(c => c.id === job.clientId)?.name} / {job.requester}
+                                        </div>
+                                        <div className="text-[10px] text-slate-400 mt-0.5 truncate" title={job.requesterEmail}>
+                                            {job.requesterEmail || 'email@example.com'}
+                                        </div>
+                                    </div>
+
+                                    {/* Created At */}
+                                    <div>
+                                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.drawerCreatedAt}</div>
+                                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                                            <Calendar size={14} className="text-slate-400" />
+                                            {lang === 'TR'
+                                                ? new Date(job.createdAt || '2023-01-01').toLocaleDateString('tr-TR')
+                                                : (job.createdAt || '2023-01-01')
+                                            }
+                                        </div>
+                                    </div>
+
+                                    {/* Urgency */}
+                                    <div>
+                                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">{t.drawerUrgency}</div>
+                                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${formState.status === 'Urgent'
+                                            ? 'bg-red-100 text-red-700 border border-red-200'
+                                            : 'bg-slate-100 text-slate-500 border border-slate-200'
+                                            }`}>
+                                            {formState.status === 'Urgent' ? <AlertCircle size={12} /> : null}
+                                            {formState.status === 'Urgent' ? t.drawerUrgentYes : t.drawerUrgentNo}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Assignee & Visibility */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* Assignee Selector */}
+                                    <div className="relative">
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerAssignee}</label>
+                                        <button
+                                            onClick={() => setIsAssigneeOpen(!isAssigneeOpen)}
+                                            className="w-full flex items-center justify-between p-3 bg-white border border-slate-200 rounded-xl hover:border-indigo-300 transition-colors"
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={MOCK_DB.users.find(u => u.id === formState.assignee)?.avatar}
+                                                    alt="Assignee"
+                                                    className="w-6 h-6 rounded-full object-cover"
+                                                />
+                                                <span className="text-sm font-medium text-slate-700">
+                                                    {MOCK_DB.users.find(u => u.id === formState.assignee)?.name}
+                                                </span>
+                                            </div>
+                                            <ChevronDown size={16} className="text-slate-400" />
+                                        </button>
+
+                                        {isAssigneeOpen && (
+                                            <div className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-xl border border-slate-100 py-1 z-50 animate-in fade-in slide-in-from-top-1 max-h-48 overflow-y-auto">
+                                                {MOCK_DB.users.map((u) => (
+                                                    <button
+                                                        key={u.id}
+                                                        onClick={() => {
+                                                            setFormState({ ...formState, assignee: u.id });
+                                                            setIsAssigneeOpen(false);
+                                                        }}
+                                                        className="w-full text-left px-4 py-2 hover:bg-slate-50 transition-colors flex items-center gap-3"
+                                                    >
+                                                        <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full object-cover" />
+                                                        <div className="flex flex-col">
+                                                            <span className="text-sm font-medium text-slate-700">{u.name}</span>
+                                                            <span className="text-[10px] text-slate-400">{u.role}</span>
+                                                        </div>
+                                                        {formState.assignee === u.id && <CheckCircle2 size={14} className="ml-auto text-indigo-600" />}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Client Visibility Toggle */}
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerVisibility}</label>
+                                        <div className="flex bg-slate-100 p-1 rounded-xl">
+                                            <button
+                                                onClick={() => setFormState({ ...formState, isClientVisible: true })}
+                                                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold transition-all ${formState.isClientVisible ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                            >
+                                                <Users size={14} /> {t.drawerVisible}
+                                            </button>
+                                            <button
+                                                onClick={() => setFormState({ ...formState, isClientVisible: false })}
+                                                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-bold transition-all ${!formState.isClientVisible ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+                                            >
+                                                <LayoutDashboard size={14} /> {t.drawerHidden}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Deadline Management */}

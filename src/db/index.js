@@ -41,6 +41,10 @@ export const MOCK_DB = {
             internalMessages: 5,
             description: "Comprehensive marketing campaign strategy for Q3, including social media ramp-up and influencer partnerships.",
             descriptionTR: "Q3 için kapsamlı pazarlama kampanyası stratejisi, sosyal medya artışı ve etkileyici ortaklıkları dahil.",
+            requesterEmail: 'sarah.connor@sienna.com',
+            createdAt: '2023-10-20',
+            assignee: 'Alex Jensen',
+            isClientVisible: true,
             requirements: ["Strategy", "Social Media", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
@@ -65,6 +69,10 @@ export const MOCK_DB = {
             internalMessages: 1,
             description: "Complete redesign of the corporate homepage to align with the new branding guidelines. Focus on conversion optimization and mobile responsiveness.",
             descriptionTR: "Yeni marka yönergelerine uyum sağlamak için kurumsal ana sayfanın tam tasarımı. Dönüşüm optimizasyonu ve mobil uyumluluğa odaklanın.",
+            requesterEmail: 'hank.scorpio@abramind.com',
+            createdAt: '2023-10-01',
+            assignee: 'Alex Jensen',
+            isClientVisible: false,
             requirements: ["UX/UI Design", "Frontend Dev", "SEO", "Accessibility"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
@@ -89,6 +97,10 @@ export const MOCK_DB = {
             internalMessages: 0,
             description: "Design and layout for the new nutritional guide PDF. Needs to be print-ready and accessible for digital distribution.",
             descriptionTR: "Yeni beslenme rehberi PDF'si için tasarım ve düzen. Baskıya hazır ve dijital dağıtım için erişilebilir olmalı.",
+            requesterEmail: 'richard.t@maison.com',
+            createdAt: '2023-10-28',
+            assignee: 'Sarah Miller',
+            isClientVisible: true,
             requirements: ["Graphic Design", "Print Layout", "Illustration"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Richard T.', timestamp: '2023-10-28 08:30', visibility: 'internal' }
@@ -109,6 +121,10 @@ export const MOCK_DB = {
             internalMessages: 0,
             description: "November social media content calendar and assets creation.",
             descriptionTR: "Kasım ayı sosyal medya içerik takvimi ve varlık oluşturma.",
+            requesterEmail: 'john.doe@sienna.com',
+            createdAt: '2023-11-01',
+            assignee: 'Emily Zhang',
+            isClientVisible: true,
             requirements: ["Social Media", "Graphic Design"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'John Doe', timestamp: '2023-11-01 10:00', visibility: 'internal' }
@@ -129,6 +145,10 @@ export const MOCK_DB = {
             internalMessages: 3,
             description: "Internal safety training video editing and voiceover synchronization.",
             descriptionTR: "Dahili güvenlik eğitimi videosu düzenleme ve ses senkronizasyonu.",
+            requesterEmail: 'albert.w@phyllant.com',
+            createdAt: '2023-11-05',
+            assignee: 'James Chen',
+            isClientVisible: true,
             requirements: ["Video Editing", "Voiceover", "Motion Graphics"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Albert W.', timestamp: '2023-11-05 09:15', visibility: 'internal' },
@@ -153,6 +173,10 @@ export const MOCK_DB = {
             internalMessages: 2,
             description: "UI design for the HUD interface of the Mark 85 suit.",
             descriptionTR: "Mark 85 zırhının HUD arayüzü için UI tasarımı.",
+            requesterEmail: 'pepper.potts@pithema.com',
+            createdAt: '2023-11-15',
+            assignee: 'Sarah Miller',
+            isClientVisible: false,
             requirements: ["UI Design", "Holography", "Interaction Design"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Pepper Potts', timestamp: '2023-11-15 08:30', visibility: 'internal' },
@@ -175,6 +199,10 @@ export const MOCK_DB = {
             internalMessages: 4,
             description: "Follow-up marketing materials for Q3 campaign.",
             descriptionTR: "Q3 kampanyası için takip pazarlama materyalleri.",
+            requesterEmail: 'sarah.connor@sienna.com',
+            createdAt: '2023-11-20',
+            assignee: 'Emily Zhang',
+            isClientVisible: true,
             requirements: ["Strategy", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-11-20 09:45', visibility: 'internal' },
@@ -199,6 +227,10 @@ export const MOCK_DB = {
             internalMessages: 0,
             description: "Phase 2 of homepage redesign: Implementation.",
             descriptionTR: "Ana sayfa tasarımının 2. aşaması: Uygulama.",
+            requesterEmail: 'hank.scorpio@abramind.com',
+            createdAt: '2023-11-25',
+            assignee: 'James Chen',
+            isClientVisible: true,
             requirements: ["Frontend Dev", "Testing"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-11-25 10:00', visibility: 'internal' },
@@ -221,6 +253,10 @@ export const MOCK_DB = {
             internalMessages: 2,
             description: "Revisions for the nutritional guide based on legal review.",
             descriptionTR: "Yasal incelemeye dayalı beslenme rehberi revizyonları.",
+            requesterEmail: 'richard.t@maison.com',
+            createdAt: '2023-12-01',
+            assignee: 'Sarah Miller',
+            isClientVisible: true,
             requirements: ["Graphic Design", "Print Layout"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Richard T.', timestamp: '2023-12-01 09:00', visibility: 'internal' },
@@ -243,6 +279,10 @@ export const MOCK_DB = {
             internalMessages: 1,
             description: "Final cut review of the safety video.",
             descriptionTR: "Güvenlik videosunun son kurgu incelemesi.",
+            requesterEmail: 'albert.w@phyllant.com',
+            createdAt: '2023-12-04',
+            assignee: 'Alex Jensen',
+            isClientVisible: true,
             requirements: ["Video Editing"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Albert W.', timestamp: '2023-12-04 08:45', visibility: 'internal' },
@@ -267,6 +307,10 @@ export const MOCK_DB = {
             internalMessages: 0,
             description: "Final polish of the HUD elements.",
             descriptionTR: "HUD öğelerinin son cilası.",
+            requesterEmail: 'pepper.potts@pithema.com',
+            createdAt: '2023-12-05',
+            assignee: 'Sarah Miller',
+            isClientVisible: false,
             requirements: ["UI Design", "Motion Graphics"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Pepper Potts', timestamp: '2023-12-05 10:30', visibility: 'internal' }
@@ -287,6 +331,10 @@ export const MOCK_DB = {
             internalMessages: 1,
             description: "Refreshing the mobile app icons and splash screen.",
             descriptionTR: "Mobil uygulama simgelerini ve açılış ekranını yenileme.",
+            requesterEmail: 'gary.o@prowa.com',
+            createdAt: '2023-12-08',
+            assignee: 'Emily Zhang',
+            isClientVisible: true,
             requirements: ["Iconography", "Mobile Design"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Gary O.', timestamp: '2023-12-08 11:00', visibility: 'internal' },
@@ -297,5 +345,12 @@ export const MOCK_DB = {
                 { id: 2, type: 'comment', text: 'Yeni simgeler inceleme için hazır.', user: 'Alex Jensen', timestamp: '2023-12-10 14:45', visibility: 'internal' }
             ]
         },
+    ],
+    // Mock Users for Assignee Selector
+    users: [
+        { id: 'u1', name: 'Alex Jensen', role: 'Senior Producer', avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
+        { id: 'u2', name: 'Sarah Miller', role: 'Designer', avatar: 'https://i.pravatar.cc/150?u=2' },
+        { id: 'u3', name: 'James Chen', role: 'Developer', avatar: 'https://i.pravatar.cc/150?u=3' },
+        { id: 'u4', name: 'Emily Zhang', role: 'Copywriter', avatar: 'https://i.pravatar.cc/150?u=4' },
     ]
 };

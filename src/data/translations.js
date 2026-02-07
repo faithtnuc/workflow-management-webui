@@ -124,6 +124,15 @@ export const TRANSLATIONS = {
         drawerJobTitle: 'İş Başlığı',
         drawerPlaceholderDesc: 'İş açıklamasını girin...',
         drawerBreadcrumb: 'Abramind',
+        drawerCreatedBy: 'Oluşturan',
+        drawerCreatedAt: 'Oluşturulma',
+        drawerUrgency: 'Aciliyet',
+        drawerAssignee: 'Yetkili Kişi',
+        drawerVisibility: 'Müşteri Görünürlüğü',
+        drawerVisible: 'Göster',
+        drawerHidden: 'Gizle',
+        drawerUrgentYes: 'Acil',
+        drawerUrgentNo: 'Acil Değil',
 
         // Drawer Tabs
         tabClientChat: 'Müşteri Sohbeti',
@@ -271,6 +280,15 @@ export const TRANSLATIONS = {
         drawerJobTitle: 'Job Title',
         drawerPlaceholderDesc: 'Enter job description...',
         drawerBreadcrumb: 'Abramind',
+        drawerCreatedBy: 'Created By',
+        drawerCreatedAt: 'Created At',
+        drawerUrgency: 'Urgency',
+        drawerAssignee: 'Assignee',
+        drawerVisibility: 'Client Visibility',
+        drawerVisible: 'Visible',
+        drawerHidden: 'Hidden',
+        drawerUrgentYes: 'Urgent',
+        drawerUrgentNo: 'Not Urgent',
 
         // Drawer Tabs
         tabClientChat: 'Client Chat',

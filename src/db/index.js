@@ -40,11 +40,17 @@ export const MOCK_DB = {
             messages: 2,
             internalMessages: 5,
             description: "Comprehensive marketing campaign strategy for Q3, including social media ramp-up and influencer partnerships.",
+            descriptionTR: "Q3 için kapsamlı pazarlama kampanyası stratejisi, sosyal medya artışı ve etkileyici ortaklıkları dahil.",
             requirements: ["Strategy", "Social Media", "Copywriting"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
                 { id: 2, type: 'comment', text: 'Initial draft is ready for review.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
                 { id: 3, type: 'comment', text: 'Looks good, minor tweaks on the budget section needed.', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Sarah Connor', timestamp: '2023-10-20 09:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'İlk taslak inceleme için hazır.', user: 'Alex Jensen', timestamp: '2023-10-25 14:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Güzel görünüyor, bütçe bölümünde ufak değişiklikler gerekiyor.', user: 'Sarah Connor', timestamp: '2023-10-26 10:15', visibility: 'client' }
             ]
         },
         {
@@ -58,11 +64,17 @@ export const MOCK_DB = {
             messages: 0,
             internalMessages: 1,
             description: "Complete redesign of the corporate homepage to align with the new branding guidelines. Focus on conversion optimization and mobile responsiveness.",
+            descriptionTR: "Yeni marka yönergelerine uyum sağlamak için kurumsal ana sayfanın tam tasarımı. Dönüşüm optimizasyonu ve mobil uyumluluğa odaklanın.",
             requirements: ["UX/UI Design", "Frontend Dev", "SEO", "Accessibility"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
                 { id: 2, type: 'comment', text: 'Wireframes approved. Moving to high-fidelity designs.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
                 { id: 3, type: 'comment', text: 'Internal note: Client is sensitive about the color palette.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Hank Scorpio', timestamp: '2023-10-01 11:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Tel kafesler onaylandı. Yüksek sadakatli tasarımlara geçiliyor.', user: 'Alex Jensen', timestamp: '2023-10-05 16:45', visibility: 'client' },
+                { id: 3, type: 'comment', text: 'Dahili not: Müşteri renk paleti konusunda hassas.', user: 'Alex Jensen', timestamp: '2023-10-05 16:50', visibility: 'internal' }
             ]
         },
         {
@@ -76,9 +88,13 @@ export const MOCK_DB = {
             messages: 5,
             internalMessages: 0,
             description: "Design and layout for the new nutritional guide PDF. Needs to be print-ready and accessible for digital distribution.",
+            descriptionTR: "Yeni beslenme rehberi PDF'si için tasarım ve düzen. Baskıya hazır ve dijital dağıtım için erişilebilir olmalı.",
             requirements: ["Graphic Design", "Print Layout", "Illustration"],
             activityLog: [
                 { id: 1, type: 'log', text: 'Job created', user: 'Richard T.', timestamp: '2023-10-28 08:30', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Richard T.', timestamp: '2023-10-28 08:30', visibility: 'internal' }
             ]
         },
         {
@@ -92,8 +108,14 @@ export const MOCK_DB = {
             messages: 0,
             internalMessages: 0,
             description: "November social media content calendar and assets creation.",
+            descriptionTR: "Kasım ayı sosyal medya içerik takvimi ve varlık oluşturma.",
             requirements: ["Social Media", "Graphic Design"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'John Doe', timestamp: '2023-11-01 10:00', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'John Doe', timestamp: '2023-11-01 10:00', visibility: 'internal' }
+            ]
         },
         {
             id: '10026',
@@ -106,8 +128,18 @@ export const MOCK_DB = {
             messages: 1,
             internalMessages: 3,
             description: "Internal safety training video editing and voiceover synchronization.",
+            descriptionTR: "Dahili güvenlik eğitimi videosu düzenleme ve ses senkronizasyonu.",
             requirements: ["Video Editing", "Voiceover", "Motion Graphics"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Albert W.', timestamp: '2023-11-05 09:15', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Raw footage uploaded to server.', user: 'Alex Jensen', timestamp: '2023-11-06 11:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Please check the audio levels in scene 3.', user: 'Albert W.', timestamp: '2023-11-06 14:20', visibility: 'client' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Albert W.', timestamp: '2023-11-05 09:15', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Ham görüntüler sunucuya yüklendi.', user: 'Alex Jensen', timestamp: '2023-11-06 11:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Lütfen 3. sahnedeki ses seviyelerini kontrol edin.', user: 'Albert W.', timestamp: '2023-11-06 14:20', visibility: 'client' }
+            ]
         },
         {
             id: '10027',
@@ -120,8 +152,16 @@ export const MOCK_DB = {
             messages: 0,
             internalMessages: 2,
             description: "UI design for the HUD interface of the Mark 85 suit.",
+            descriptionTR: "Mark 85 zırhının HUD arayüzü için UI tasarımı.",
             requirements: ["UI Design", "Holography", "Interaction Design"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Pepper Potts', timestamp: '2023-11-15 08:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Tony wants the blue to be more "electric".', user: 'Pepper Potts', timestamp: '2023-11-16 10:00', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Pepper Potts', timestamp: '2023-11-15 08:30', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Tony mavinin daha "elektrikli" olmasını istiyor.', user: 'Pepper Potts', timestamp: '2023-11-16 10:00', visibility: 'internal' }
+            ]
         },
         {
             id: '10029',
@@ -134,8 +174,18 @@ export const MOCK_DB = {
             messages: 1,
             internalMessages: 4,
             description: "Follow-up marketing materials for Q3 campaign.",
+            descriptionTR: "Q3 kampanyası için takip pazarlama materyalleri.",
             requirements: ["Strategy", "Copywriting"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Sarah Connor', timestamp: '2023-11-20 09:45', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'We need to align this with the main campaign.', user: 'Alex Jensen', timestamp: '2023-11-21 15:00', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Can we get a timeline on this?', user: 'Sarah Connor', timestamp: '2023-11-22 11:20', visibility: 'client' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Sarah Connor', timestamp: '2023-11-20 09:45', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Bunu ana kampanya ile hizalamamız gerekiyor.', user: 'Alex Jensen', timestamp: '2023-11-21 15:00', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Bunun için bir zaman çizelgesi alabilir miyiz?', user: 'Sarah Connor', timestamp: '2023-11-22 11:20', visibility: 'client' }
+            ]
         },
         {
             id: '10030',
@@ -148,8 +198,16 @@ export const MOCK_DB = {
             messages: 2,
             internalMessages: 0,
             description: "Phase 2 of homepage redesign: Implementation.",
+            descriptionTR: "Ana sayfa tasarımının 2. aşaması: Uygulama.",
             requirements: ["Frontend Dev", "Testing"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Hank Scorpio', timestamp: '2023-11-25 10:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Staging environment is ready.', user: 'Alex Jensen', timestamp: '2023-11-28 14:00', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Hank Scorpio', timestamp: '2023-11-25 10:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Evreleme ortamı hazır.', user: 'Alex Jensen', timestamp: '2023-11-28 14:00', visibility: 'internal' }
+            ]
         },
         {
             id: '10031',
@@ -162,8 +220,16 @@ export const MOCK_DB = {
             messages: 0,
             internalMessages: 2,
             description: "Revisions for the nutritional guide based on legal review.",
+            descriptionTR: "Yasal incelemeye dayalı beslenme rehberi revizyonları.",
             requirements: ["Graphic Design", "Print Layout"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Richard T.', timestamp: '2023-12-01 09:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Legal team comments attached.', user: 'Richard T.', timestamp: '2023-12-02 11:15', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Richard T.', timestamp: '2023-12-01 09:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Hukuk ekibi yorumları eklendi.', user: 'Richard T.', timestamp: '2023-12-02 11:15', visibility: 'internal' }
+            ]
         },
         {
             id: '10032',
@@ -176,8 +242,18 @@ export const MOCK_DB = {
             messages: 4,
             internalMessages: 1,
             description: "Final cut review of the safety video.",
+            descriptionTR: "Güvenlik videosunun son kurgu incelemesi.",
             requirements: ["Video Editing"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Albert W.', timestamp: '2023-12-04 08:45', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Final render looks clean.', user: 'Alex Jensen', timestamp: '2023-12-06 16:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Approved for distribution.', user: 'Albert W.', timestamp: '2023-12-07 09:20', visibility: 'client' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Albert W.', timestamp: '2023-12-04 08:45', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Son render temiz görünüyor.', user: 'Alex Jensen', timestamp: '2023-12-06 16:30', visibility: 'internal' },
+                { id: 3, type: 'comment', text: 'Dağıtım için onaylandı.', user: 'Albert W.', timestamp: '2023-12-07 09:20', visibility: 'client' }
+            ]
         },
         {
             id: '10033',
@@ -190,8 +266,14 @@ export const MOCK_DB = {
             messages: 0,
             internalMessages: 0,
             description: "Final polish of the HUD elements.",
+            descriptionTR: "HUD öğelerinin son cilası.",
             requirements: ["UI Design", "Motion Graphics"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Pepper Potts', timestamp: '2023-12-05 10:30', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Pepper Potts', timestamp: '2023-12-05 10:30', visibility: 'internal' }
+            ]
         },
         {
             id: '10034',
@@ -204,8 +286,16 @@ export const MOCK_DB = {
             messages: 1,
             internalMessages: 1,
             description: "Refreshing the mobile app icons and splash screen.",
+            descriptionTR: "Mobil uygulama simgelerini ve açılış ekranını yenileme.",
             requirements: ["Iconography", "Mobile Design"],
-            activityLog: []
+            activityLog: [
+                { id: 1, type: 'log', text: 'Job created', user: 'Gary O.', timestamp: '2023-12-08 11:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'New icons are ready for review.', user: 'Alex Jensen', timestamp: '2023-12-10 14:45', visibility: 'internal' }
+            ],
+            activityLogTR: [
+                { id: 1, type: 'log', text: 'İş oluşturuldu', user: 'Gary O.', timestamp: '2023-12-08 11:00', visibility: 'internal' },
+                { id: 2, type: 'comment', text: 'Yeni simgeler inceleme için hazır.', user: 'Alex Jensen', timestamp: '2023-12-10 14:45', visibility: 'internal' }
+            ]
         },
     ]
 };

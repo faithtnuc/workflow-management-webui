@@ -257,19 +257,71 @@ const MetricCard = ({ title, value, subtext, trend, icon: Icon, trendLabel }) =>
 // Job Detail Drawer Component (Editor)
 const JobDrawer = ({ job, onClose, isOpen, lang }) => {
     const [activeTab, setActiveTab] = useState('client'); // 'client' | 'internal'
-    const [status, setStatus] = useState(job?.status || 'In Progress');
+    const [formState, setFormState] = useState({
+        status: 'In Progress',
+        requirements: [],
+        internalDeadline: '',
+        description: '',
+        title: ''
+    });
     const [isStatusOpen, setIsStatusOpen] = useState(false);
-    const [requirements, setRequirements] = useState(job?.requirements || []);
 
     const t = TRANSLATIONS[lang];
 
     // Reset local state when job changes
     React.useEffect(() => {
         if (job) {
-            setStatus(job.status);
-            setRequirements(job.requirements || []);
+            setFormState({
+                status: job.status,
+                requirements: job.requirements || [],
+                internalDeadline: job.internalDeadline || '',
+                description: lang === 'TR' ? (job.descriptionTR || job.description) : job.description,
+                title: lang === 'TR' ? (t[job.titleKey] || job.titleKey) : (t[job.titleKey] || job.titleKey) // Use translated title as init value
+            });
         }
-    }, [job]);
+    }, [job, lang, t]);
+
+    if (!job) return null;
+
+    // Check for changes
+    const hasChanges = () => {
+        const initialDesc = lang === 'TR' ? (job.descriptionTR || job.description) : job.description;
+        // const initialTitle = t[job.titleKey] || job.titleKey; // Title editing might be tricky if it's a key. Let's assume we edit the text directly for now suitable for the "mock" nature. 
+        // Note: Real app would probably not let you edit a key-based title easily without strictly updating the key or having a custom title field. 
+        // For this mock, let's track description, status, requirements, deadline. 
+
+        const isDescChanged = formState.description !== initialDesc;
+        const isStatusChanged = formState.status !== job.status;
+        const isReqChanged = JSON.stringify(formState.requirements.sort()) !== JSON.stringify((job.requirements || []).sort());
+        const isDeadlineChanged = formState.internalDeadline !== (job.internalDeadline || '');
+
+        return isDescChanged || isStatusChanged || isReqChanged || isDeadlineChanged;
+    };
+
+    const handleSave = () => {
+        // Mock Update
+        job.status = formState.status;
+        job.requirements = formState.requirements;
+        job.internalDeadline = formState.internalDeadline;
+
+        if (lang === 'TR') {
+            job.descriptionTR = formState.description;
+        } else {
+            job.description = formState.description;
+        }
+
+        onClose();
+    };
+
+    const handleCancel = () => {
+        if (hasChanges()) {
+            if (confirm(t.msgNoChanges ? 'Discard changes?' : 'Changes will be lost.')) { // fallback if translation missing, though we added it
+                onClose();
+            }
+        } else {
+            onClose();
+        }
+    };
 
     // Requirements Configuration
     const REQ_TYPES = [
@@ -283,23 +335,22 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
 
     if (!job) return null;
 
-
-
     // Helper to check if req is active
     const isReqActive = (reqId) => {
-        return requirements.some(r => r.includes(reqId));
+        return formState.requirements.some(r => r.includes(reqId));
     };
 
     const toggleRequirement = (reqId) => {
-        if (isReqActive(reqId)) {
-            setRequirements(requirements.filter(r => !r.includes(reqId)));
-        } else {
-            setRequirements([...requirements, reqId]);
-        }
+        setFormState(prev => {
+            const newReqs = prev.requirements.includes(reqId)
+                ? prev.requirements.filter(r => r !== reqId)
+                : [...prev.requirements, reqId];
+            return { ...prev, requirements: newReqs };
+        });
     };
 
     const handleStatusChange = (newStatus) => {
-        setStatus(newStatus);
+        setFormState(prev => ({ ...prev, status: newStatus }));
         setIsStatusOpen(false);
     };
 
@@ -308,7 +359,7 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
             {/* Backdrop */}
             <div
                 className={`fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-                onClick={onClose}
+                onClick={handleCancel}
             />
 
             {/* Drawer - Wider (75%) */}
@@ -334,7 +385,7 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                 onClick={() => setIsStatusOpen(!isStatusOpen)}
                                 className="cursor-pointer hover:opacity-80 transition-opacity"
                             >
-                                <StatusBadge status={status} />
+                                <StatusBadge status={formState.status} label={t['status' + formState.status.replace(/\s/g, '')]} />
                             </div>
 
                             {isStatusOpen && (
@@ -345,8 +396,8 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                             onClick={() => handleStatusChange(s)}
                                             className="w-full text-left px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between group"
                                         >
-                                            {s}
-                                            {status === s && <CheckCircle2 size={14} className="text-indigo-600" />}
+                                            {t['status' + s.replace(/\s/g, '')]}
+                                            {formState.status === s && <CheckCircle2 size={14} className="text-indigo-600" />}
                                         </button>
                                     ))}
                                 </div>
@@ -356,21 +407,22 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                         <div className="h-8 w-px bg-slate-200 mx-2"></div>
 
                         {/* Action Icons */}
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Client Profile">
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipClientProfile}>
                             <User size={18} />
                         </button>
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title="Other Jobs">
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipOtherJobs}>
                             <List size={18} />
                         </button>
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipMoreActions}>
                             <MoreVertical size={18} />
                         </button>
 
                         <div className="h-8 w-px bg-slate-200 mx-2"></div>
 
                         <button
-                            onClick={onClose}
+                            onClick={handleCancel}
                             className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                            title={t.tooltipClose}
                         >
                             <X size={20} />
                         </button>
@@ -384,36 +436,39 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                     <div className="w-[60%] flex flex-col overflow-y-auto border-r border-slate-200 bg-white">
                         <div className="p-8 space-y-8">
 
-                            {/* Title (Editable-ish) */}
+                            {/* Title (Editable) */}
                             <div>
                                 <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerJobTitle}</label>
                                 <input
                                     type="text"
-                                    defaultValue={t[job.titleKey]}
+                                    value={formState.title} // Used formState
+                                    onChange={(e) => setFormState({ ...formState, title: e.target.value })}
                                     className="w-full text-2xl font-bold text-slate-900 border-none p-0 focus:ring-0 placeholder:text-slate-300"
                                 />
                             </div>
 
                             {/* Deadline Management */}
                             <div className="grid grid-cols-2 gap-6">
-                                <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/50">
+                                <div className="p-4 rounded-xl border border-slate-200 bg-slate-100">
                                     <label className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                                         <Calendar size={14} /> {t.drawerClientDeadline}
                                     </label>
                                     <input
                                         type="date"
+                                        readOnly
                                         defaultValue={job.deadline}
-                                        className="w-full bg-white border border-slate-200 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5"
+                                        className="w-full bg-transparent border-none text-slate-500 text-sm font-medium focus:ring-0 p-0 cursor-not-allowed"
                                     />
                                 </div>
-                                <div className="p-4 rounded-xl border-l-4 border-l-red-500 border border-slate-200 bg-white shadow-sm">
+                                <div className="p-4 rounded-xl border-l-4 border-l-red-500 border border-slate-200 bg-white shadow-sm hover:border-slate-300 transition-colors">
                                     <label className="flex items-center gap-2 text-xs font-bold text-red-600 uppercase tracking-wider mb-2">
                                         <AlertCircle size={14} /> {t.drawerAgencyDeadline}
                                     </label>
                                     <input
                                         type="date"
-                                        defaultValue={job.internalDeadline}
-                                        className="w-full bg-red-50 border border-red-100 text-red-900 text-sm font-semibold rounded-lg focus:ring-red-500 focus:border-red-500 block p-2.5"
+                                        value={formState.internalDeadline}
+                                        onChange={(e) => setFormState({ ...formState, internalDeadline: e.target.value })}
+                                        className="w-full bg-transparent border-none text-red-900 text-sm font-bold focus:ring-0 p-0"
                                     />
                                 </div>
                             </div>
@@ -423,8 +478,9 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                                 <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t.drawerDescription}</label>
                                 <textarea
                                     rows={6}
-                                    className="block p-4 w-full text-sm text-slate-900 bg-slate-50 rounded-xl border border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 leading-relaxed resize-none"
-                                    defaultValue={job.description}
+                                    className="block p-4 w-full text-sm text-slate-900 bg-slate-50 rounded-xl border border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 leading-relaxed resize-none transition-shadow"
+                                    value={formState.description}
+                                    onChange={(e) => setFormState({ ...formState, description: e.target.value })}
                                     placeholder={t.drawerPlaceholderDesc}
                                 ></textarea>
                             </div>
@@ -486,44 +542,49 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                         {/* Chat Area */}
                         <div className="flex-1 overflow-y-auto p-4 space-y-4">
                             {/* Filter logs based on visibility */}
-                            {job.activityLog && job.activityLog
-                                .filter(log => activeTab === 'internal' ? true : log.visibility !== 'internal') // Internal sees all, Client sees only client/public
-                                .map((log) => (
-                                    <div key={log.id} className="flex gap-3 items-start animate-in fade-in slide-in-from-bottom-2 duration-300">
-                                        {log.type === 'log' ? (
-                                            <div className="w-full flex justify-center my-2">
-                                                <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-                                                    {log.user} {log.text.toLowerCase()} • {log.timestamp}
-                                                </span>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm flex-shrink-0 ${log.visibility === 'internal' ? 'bg-orange-400' : 'bg-blue-500'}`}>
-                                                    {log.user.charAt(0)}
+                            {(() => {
+                                const logs = lang === 'TR' ? (job.activityLogTR || job.activityLog) : job.activityLog;
+                                return logs && logs
+                                    .filter(log => activeTab === 'internal' ? true : log.visibility !== 'internal') // Internal sees all, Client sees only client/public
+                                    .map((log) => (
+                                        <div key={log.id} className="flex gap-3 items-start animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                            {log.type === 'log' ? (
+                                                <div className="w-full flex justify-center my-2">
+                                                    <span className="text-[10px] font-medium text-slate-400 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+                                                        {log.user} {log.text.toLowerCase()} • {log.timestamp}
+                                                    </span>
                                                 </div>
-                                                <div className="flex-1">
-                                                    <div className="flex items-baseline justify-between mb-1 ml-1">
-                                                        <span className="text-xs font-bold text-slate-900">{log.user}</span>
-                                                        <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                            ) : (
+                                                <>
+                                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-sm flex-shrink-0 ${log.visibility === 'internal' ? 'bg-orange-400' : 'bg-blue-500'}`}>
+                                                        {log.user.charAt(0)}
                                                     </div>
-                                                    <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${log.visibility === 'internal'
-                                                        ? 'bg-orange-50 text-orange-900 rounded-tl-none border border-orange-100'
-                                                        : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
-                                                        }`}>
-                                                        {log.text}
+                                                    <div className="flex-1">
+                                                        <div className="flex items-baseline justify-between mb-1 ml-1">
+                                                            <span className="text-xs font-bold text-slate-900">{log.user}</span>
+                                                            <span className="text-[10px] text-slate-400">{log.timestamp}</span>
+                                                        </div>
+                                                        <div className={`p-3 rounded-2xl text-sm leading-relaxed shadow-sm ${log.visibility === 'internal'
+                                                            ? 'bg-orange-50 text-orange-900 rounded-tl-none border border-orange-100'
+                                                            : 'bg-white text-slate-700 rounded-tl-none border border-slate-200'
+                                                            }`}>
+                                                            {log.text}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                ))}
+                                                </>
+                                            )}
+                                        </div>
+                                    ));
+                            })()}
 
-                            {(!job.activityLog || job.activityLog.length === 0) && (
+                            {((!job.activityLog || job.activityLog.length === 0) && (!job.activityLogTR || job.activityLogTR.length === 0)) && (
                                 <div className="flex flex-col items-center justify-center h-40 text-slate-400">
                                     <MessageSquare size={32} className="mb-2 opacity-20" />
                                     <span className="text-sm">{t.noActivity}</span>
                                 </div>
                             )}
+
+
                         </div>
 
                         {/* Input Area */}
@@ -550,6 +611,44 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
 
                     </div>
                 </div>
+
+                {/* Footer Actions */}
+                <div className="h-20 border-t border-slate-200 bg-white flex items-center justify-end px-8 gap-4 flex-shrink-0 z-20">
+                    <div className="text-xs text-slate-400 mr-auto flex items-center gap-2">
+                        {!hasChanges() && (
+                            <>
+                                <CheckCircle2 size={14} />
+                                {t.msgNoChanges}
+                            </>
+                        )}
+                        {hasChanges() && (
+                            <span className="text-indigo-600 font-medium animate-pulse">
+                                Unsaved changes
+                            </span>
+                        )}
+                    </div>
+
+                    <button
+                        onClick={handleCancel}
+                        className="px-6 py-2.5 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-100 transition-colors"
+                    >
+                        {t.btnCancel}
+                    </button>
+                    <button
+                        onClick={handleSave}
+                        disabled={!hasChanges()}
+                        className={`
+                            px-8 py-2.5 rounded-xl text-sm font-bold text-white shadow-lg shadow-indigo-200 transition-all
+                            ${hasChanges()
+                                ? 'bg-indigo-600 hover:bg-indigo-700 hover:shadow-indigo-300 hover:-translate-y-0.5 cursor-pointer'
+                                : 'bg-slate-300 shadow-none cursor-not-allowed opacity-70'
+                            }
+                        `}
+                    >
+                        {t.btnSave}
+                    </button>
+                </div>
+
             </div>
         </>
     );

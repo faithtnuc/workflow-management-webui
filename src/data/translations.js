@@ -33,6 +33,9 @@ export const TRANSLATIONS = {
         },
         // Table Columns
         colId: 'Job No',
+        btnSave: 'Kaydet',
+        btnCancel: 'İptal',
+        msgNoChanges: 'Değişiklik yok',
         colClient: 'Müşteri',
         colJob: 'İş Tanımı',
         colAssignee: 'Kişi',
@@ -41,6 +44,27 @@ export const TRANSLATIONS = {
         colStatus: 'Durum',
         colChat: 'Yazışma',
         colInternalChat: 'İç Yazışma',
+        // Statuses
+        statusPending: 'Beklemede',
+        statusInProgress: 'Sürüyor',
+        statusReview: 'İnceleniyor',
+        statusCompleted: 'Tamamlandı',
+        statusUrgent: 'Acil',
+        statusWaiting: 'Bekliyor',
+
+        // Validation & Feedback
+        saved: 'Kaydedildi',
+        saving: 'Kaydediliyor...',
+        error: 'Hata oluştu',
+
+        // Dynamic Elements
+        jobIdPrefix: 'İş #',
+
+        // Tooltips
+        tooltipClientProfile: 'Müşteri Profili',
+        tooltipOtherJobs: 'Diğer İşler',
+        tooltipMoreActions: 'Daha Fazla',
+        tooltipClose: 'Kapat',
         // Job Titles
         jobQ3Marketing: 'Q3 Pazarlama Varlıkları',
         jobHomepageRedesign: 'Anasayfa Yenileme V2',
@@ -153,6 +177,9 @@ export const TRANSLATIONS = {
         },
         // Table Columns
         colId: '#ID',
+        btnSave: 'Save',
+        btnCancel: 'Cancel',
+        msgNoChanges: 'No changes',
         colClient: 'Client',
         colJob: 'Job Title',
         colAssignee: 'Assignee',
@@ -161,6 +188,27 @@ export const TRANSLATIONS = {
         colStatus: 'Status',
         colChat: 'Chat',
         colInternalChat: 'Int. Chat',
+        // Statuses
+        statusPending: 'Pending',
+        statusInProgress: 'In Progress',
+        statusReview: 'Review',
+        statusCompleted: 'Completed',
+        statusUrgent: 'Urgent',
+        statusWaiting: 'Waiting',
+
+        // Validation & Feedback
+        saved: 'Saved',
+        saving: 'Saving...',
+        error: 'Error occurred',
+
+        // Dynamic Elements
+        jobIdPrefix: 'Job #',
+
+        // Tooltips
+        tooltipClientProfile: 'Client Profile',
+        tooltipOtherJobs: 'Other Jobs',
+        tooltipMoreActions: 'More Actions',
+        tooltipClose: 'Close',
         // Job Titles
         jobQ3Marketing: 'Q3 Marketing Assets',
         jobHomepageRedesign: 'Homepage Redesign V2',

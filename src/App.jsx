@@ -407,15 +407,27 @@ const JobDrawer = ({ job, onClose, isOpen, lang }) => {
                         <div className="h-8 w-px bg-slate-200 mx-2"></div>
 
                         {/* Action Icons */}
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipClientProfile}>
-                            <User size={18} />
-                        </button>
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipOtherJobs}>
-                            <List size={18} />
-                        </button>
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors" title={t.tooltipMoreActions}>
-                            <MoreVertical size={18} />
-                        </button>
+                        <div className="flex items-center gap-2">
+                            {/* Client Profile */}
+                            <button className="flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors group">
+                                <User size={18} />
+                                <span className="text-xs font-semibold">{t.actionClientProfile}</span>
+                            </button>
+
+                            {/* Client Ideas */}
+                            <button className="flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors group">
+                                <Lightbulb size={18} />
+                                <span className="text-xs font-semibold">
+                                    {MOCK_DB.clients.find(c => c.id === job.clientId)?.name} {t.actionClientIdeas}
+                                </span>
+                            </button>
+
+                            {/* Pending Jobs */}
+                            <button className="flex items-center gap-2 px-3 py-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors group">
+                                <List size={18} />
+                                <span className="text-xs font-semibold">{t.actionClientPending}</span>
+                            </button>
+                        </div>
 
                         <div className="h-8 w-px bg-slate-200 mx-2"></div>
 
